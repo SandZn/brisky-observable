@@ -1,0 +1,30 @@
+{
+  "name": "vigour-observable",
+  "version": "1.0.0",
+  "description": "fast and mem-efficient observables",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "dependencies": {
+    "vigour-base": "1.0.0",
+    "vigour-util": "1.0.0",
+    "vigour-event": "1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigour-io/observable.git"
+  },
+  "keywords": [
+    "observable",
+    "mem",
+    "vigour",
+    "base"
+  ],
+  "author": "jim de beer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vigour-io/observable/issues"
+  },
+  "homepage": "https://github.com/vigour-io/observable#readme"
+}
