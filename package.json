@@ -7,7 +7,7 @@
     "test": "npm test"
   },
   "dependencies": {
-    "vigour-base": "1.0.0",
+    "vigour-base": "1.0.1",
     "vigour-util": "1.0.0",
     "vigour-event": "1.0.0"
   },
