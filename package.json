@@ -1,6 +1,6 @@
 {
   "name": "vigour-observable",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "fast and mem-efficient observables",
   "main": "lib/index.js",
   "scripts": {
