@@ -7,9 +7,9 @@
     "test": "npm test"
   },
   "dependencies": {
-    "vigour-base": "1.0.2",
-    "vigour-util": "1.0.0",
-    "vigour-event": "1.0.0"
+    "vigour-base": "1.0.3",
+    "vigour-util": "1.0.1",
+    "vigour-event": "1.0.1"
   },
   "devDependencies": {
     "tape": "4.4.0"
