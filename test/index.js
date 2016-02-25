@@ -1,4 +1,3 @@
 'use strict'
-
-require('./toberenamed')
+require('./references')
 require('./once')
