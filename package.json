@@ -4,7 +4,7 @@
   "description": "fast and mem-efficient observables",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "node test/index.js"
   },
   "dependencies": {
     "vigour-base": "1.0.3",
