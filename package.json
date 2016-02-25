@@ -1,15 +1,15 @@
 {
   "name": "vigour-observable",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "fast and mem-efficient observables",
   "main": "lib/index.js",
   "scripts": {
     "test": "node test/index.js"
   },
   "dependencies": {
-    "vigour-base": "1.0.3",
-    "vigour-util": "1.0.1",
-    "vigour-event": "1.0.1"
+    "vigour-base": "^1.0.5",
+    "vigour-util": "^1.0.1",
+    "vigour-event": "^1.0.3"
   },
   "devDependencies": {
     "tape": "4.4.0"
