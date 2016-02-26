@@ -7,7 +7,7 @@
     "test": "node test/index.js"
   },
   "dependencies": {
-    "vigour-base": "^1.0.5",
+    "vigour-base": "^1.0.7",
     "vigour-util": "^1.0.1",
     "vigour-event": "^1.0.3",
     "bluebird": "^3.3.1"
