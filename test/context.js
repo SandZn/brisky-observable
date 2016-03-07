@@ -44,25 +44,21 @@ test('child constructors and context', function (t) {
 })
 
 test('context override', function (t) {
-  t.plan(2)
+  t.plan(3)
+  var cnt = 0
   var Template = new Observable({
     key: 'template',
     noContextField: {
       noContext: true,
       on: {
-        data () {
-          console.log('hello!')
-        }
+        data () { cnt++ }
       }
     },
-    on: {
-      data () {
-        console.log('lullllllzzzzz')
-      }
-    }
+    trackInstances: true
   }).Constructor
   var aTemplate = new Template({ key: 'aTemplate' })
   t.equal(aTemplate.noContextField.path[0], 'template')
   aTemplate.noContextField.val = 'hello'
   t.equal(Template.prototype.noContextField.val, 'hello')
+  t.equal(cnt, 1)
 })
