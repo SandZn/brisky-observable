@@ -16,9 +16,7 @@ test('child constructors and context', function (t) {
     },
     Child: 'Constructor'
   }).Constructor
-
   var keys = {}
-
   var injectable = {
     api: {
       type: 'observable',
@@ -43,4 +41,28 @@ test('child constructors and context', function (t) {
   var ref = new Obs({ key: 'ref' })
   o.api.language.val = ref
   t.equal(keys.ref, 1)
+})
+
+test('context override', function (t) {
+  t.plan(4)
+  var cnt = 0
+  var deepCnt = 0
+  var Template = new Observable({
+    key: 'template',
+    trackInstances: true,
+    noContextField: {
+      noContext: true,
+      on: { data () { cnt++ } },
+      deep: {
+        on: { data () { deepCnt++ } }
+      }
+    },
+  }).Constructor
+  var aTemplate = new Template({ key: 'aTemplate' })
+  t.equal(aTemplate.noContextField.path[0], 'template')
+  aTemplate.noContextField.val = 'hello'
+  t.equal(Template.prototype.noContextField.val, 'hello')
+  t.equal(cnt, 1)
+  aTemplate.noContextField.deep.val = 'hello'
+  t.equal(deepCnt, 1)
 })
