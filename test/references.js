@@ -1,7 +1,5 @@
 'use strict'
 var Observable = require('../')
-var isEmpty = require('vigour-util/is/empty')
-var isRemoved = require('vigour-util/is/removed')
 var test = require('tape')
 
 test('references, keys and remove', function (t) {
