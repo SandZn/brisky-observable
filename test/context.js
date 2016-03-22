@@ -1,6 +1,6 @@
 'use strict'
-var Observable = require('../')
-var test = require('tape')
+const Observable = require('../')
+const test = require('tape')
 
 test('child constructors and context', function (t) {
   t.plan(1)
@@ -40,7 +40,7 @@ test('child constructors and context', function (t) {
   var o = new Obs()
   var ref = new Obs({ key: 'ref' })
   o.api.language.val = ref
-  t.equal(keys.ref, 1)
+  t.equal(keys.ref, 1, 'fired for instance')
 })
 
 test('context override', function (t) {
@@ -56,13 +56,21 @@ test('context override', function (t) {
       deep: {
         on: { data () { deepCnt++ } }
       }
-    },
+    }
   }).Constructor
   var aTemplate = new Template({ key: 'aTemplate' })
-  t.equal(aTemplate.noContextField.path[0], 'template')
-  aTemplate.noContextField.val = 'hello'
-  t.equal(Template.prototype.noContextField.val, 'hello')
-  t.equal(cnt, 1)
+  t.equal(
+    aTemplate.noContextField.path[0],
+    'template',
+    'getting noContextField does not get a context path'
+  )
+  aTemplate.noContextField.set('hello')
+  t.equal(
+    Template.prototype.noContextField.val,
+    'hello',
+    'setting noContextField does not resolve context'
+  )
+  t.equal(cnt, 1, 'setting noContextField fires once')
   aTemplate.noContextField.deep.val = 'hello'
-  t.equal(deepCnt, 1)
+  t.equal(deepCnt, 1, 'setting noContextField fires once for deep fields')
 })
