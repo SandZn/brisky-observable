@@ -19,21 +19,21 @@ exports.time = require('vigour-util/is/node')
 
 exports.perf = function (method, done, cnt) {
   if (!cnt) { cnt = 1 }
-  exec(0, method, cnt, cnt, done, next)
+  perfExec(0, method, cnt, cnt, done)
 }
 
-function next (ms, method, cnt, total, done) {
+function perfNext (ms, method, cnt, total, done) {
   cnt--
   if (!cnt) {
-    done(ms)
+    done(ms, total)
   } else {
-    exec(ms, method, cnt, total, done)
+    perfExec(ms, method, cnt, total, done)
   }
 }
 
-function exec (ms, method, cnt, total, done) {
+function perfExec (ms, method, cnt, total, done) {
   var time = exports.time()
   method()
   ms += exports.time(time)
-  next(ms, method, cnt, total, done)
+  process.nextTick(() => perfNext(ms, method, cnt, total, done))
 }
