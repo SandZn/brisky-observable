@@ -7,10 +7,10 @@
     "test": "node test | tap-difflet"
   },
   "dependencies": {
-    "vigour-base": "^1.0.7",
     "vigour-util": "^1.0.1",
     "vigour-event": "^1.1.2",
-    "bluebird": "^3.3.1"
+    "vigour-base": "^1.0.8",
+    "vigour-util": "^1.2.0"
   },
   "devDependencies": {
     "tap-difflet": "0.4.0",
