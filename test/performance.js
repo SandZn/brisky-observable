@@ -7,7 +7,7 @@ const test = require('tape')
 const perf = require('vigour-performance').run
 
 var observResult
-var amount = 1e6
+var amount = 1e5
 
 test('base', function (t) {
   const o = new Base()
