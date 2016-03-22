@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "vigour-util": "^1.0.1",
-    "vigour-event": "^1.1.2",
     "vigour-base": "^1.0.8",
     "vigour-util": "^1.2.0"
   },
