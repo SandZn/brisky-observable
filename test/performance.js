@@ -9,8 +9,6 @@ const perf = require('vigour-performance').run
 var observResult
 var amount = 1e6
 
-amount = 10
-
 test('base', function (t) {
   const o = new Base()
   var cnt = 0
@@ -69,8 +67,6 @@ test('observable', function (t) {
   const o = new Observable(0)
   var callCount = 0
   var cnt = 0
-  console.log(o)
-  o.set('???????????????')
   o.on(() => ++callCount)
   o.on(() => ++callCount)
   perf(() => o.set(++cnt), (ms) => {
