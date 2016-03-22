@@ -16,7 +16,8 @@
     "tap-difflet": "0.4.0",
     "tape": "4.4.0",
     "observ-struct": "^6.0.0",
-    "observ": "0.2.0"
+    "observ": "0.2.0",
+    "vigour-performance": "^1.0.0"
   },
   "repository": {
     "type": "git",

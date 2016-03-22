@@ -5,7 +5,7 @@ const Event = require('vigour-event')
 const Observ = require('observ')
 // const ObservStruct = require('observ-struct')
 const test = require('tape')
-const perf = require('./test').perf
+const perf = require('vigour-performance').run
 
 var observResult
 
