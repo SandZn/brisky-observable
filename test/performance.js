@@ -6,8 +6,8 @@ const Observ = require('observ')
 const test = require('tape')
 const perf = require('vigour-performance').run
 
-var observResult
-var amount = 1e6
+var observableResult
+var amount = 1e7
 
 // test('base', function (t) {
 //   const o = new Base()
@@ -18,19 +18,52 @@ var amount = 1e6
 //     t.end()
 //   }, amount)
 // })
-
-test('observ', function (t) {
-  const o = Observ(0)
+test('observable', function (t) {
+  const o = new Observable(0)
   var callCount = 0
   var cnt = 0
-  o(() => ++callCount)
-  o(() => ++callCount)
-  perf(() => o.set(++cnt), (ms) => {
-    console.log('observ', ms + 'ms', callCount)
-    observResult = ms
+  o.on(() => ++callCount)
+  o.on(() => ++callCount)
+  // can optmize instances lot more pretty sure!
+  const o1 = new o.Constructor()
+  const o2 = new o1.Constructor()
+  const o3 = new o2.Constructor({
+    key: 'o1',
+    on: {
+      data: {
+        2: function () {
+          ++callCount
+        }
+      }
+    }
+  })
+  // console.log(o1)
+  // console.log(o1._on.data === o._on.data)
+  // console.log(o1._on.data.fn === o._on.data.fn)
+  // const o2 = new o1.Constructor()
+  // const o3 = new o2.Constructor()
+  perf(() => {
+    for (var i = 0; i < amount; i ++) {
+      o.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('vigour-observable', ms + 'ms', callCount)
+    observableResult = ms
     t.end()
-  }, amount)
+  }, 1)
 })
+
+// test('observ', function (t) {
+//   const o = Observ(0)
+//   var callCount = 0
+//   var cnt = 0
+//   o(() => ++callCount)
+//   o(() => ++callCount)
+//   perf(() => o.set(++cnt), (ms) => {
+//     console.log('observ', ms + 'ms', callCount, Math.round(ms/observableResult * 100) + '%')
+//     t.end()
+//   }, amount)
+// })
 
 // test('base-observer', function (t) {
 //   const _set = Base.prototype.set
@@ -62,33 +95,3 @@ test('observ', function (t) {
 //     t.end()
 //   }, amount)
 // })
-
-test('observable', function (t) {
-  const o = new Observable(0)
-  var callCount = 0
-  var cnt = 0
-  o.on(() => ++callCount)
-  o.on(() => ++callCount)
-  // can optmize instances lot more pretty sure!
-  // const o1 = new o.Constructor()
-  // const o2 = new o1.Constructor()
-  // const o3 = new o2.Constructor({
-  //   key: 'o1',
-  //   on: {
-  //     data: {
-  //       2: function () {
-  //         ++callCount
-  //       }
-  //     }
-  //   }
-  // })
-  // console.log(o1)
-  // console.log(o1._on.data === o._on.data)
-  // console.log(o1._on.data.fn === o._on.data.fn)
-  // const o2 = new o1.Constructor()
-  // const o3 = new o2.Constructor()
-  perf(() => o.set(++cnt), (ms) => {
-    console.log('vigour-observable', ms + 'ms', callCount, Math.round((ms / observResult) * 100) + '%')
-    t.end()
-  }, Math.round(amount))
-})
