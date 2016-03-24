@@ -7,7 +7,7 @@ const test = require('tape')
 const perf = require('vigour-performance').run
 
 var observResult
-var amount = 1e6
+var amount = 1e5
 
 // test('base', function (t) {
 //   const o = new Base()
@@ -71,17 +71,17 @@ test('observable', function (t) {
   o.on(() => ++callCount)
   // can optmize instances lot more pretty sure!
   const o1 = new o.Constructor()
-  // const o2 = new o1.Constructor()
-  // const o1 = new o.Constructor({
-  //   key: 'o1',
-  //   on: {
-  //     data: {
-  //       2: function () {
-  //         ++callCount
-  //       }
-  //     }
-  //   }
-  // })
+  const o2 = new o1.Constructor()
+  const o3 = new o2.Constructor({
+    key: 'o1',
+    on: {
+      data: {
+        2: function () {
+          ++callCount
+        }
+      }
+    }
+  })
   // console.log(o1)
   // console.log(o1._on.data === o._on.data)
   // console.log(o1._on.data.fn === o._on.data.fn)
@@ -90,5 +90,5 @@ test('observable', function (t) {
   perf(() => o.set(++cnt), (ms) => {
     console.log('vigour-observable', ms + 'ms', callCount, Math.round((ms / observResult) * 100) + '%')
     t.end()
-  }, Math.round(amount/2))
+  }, Math.round(amount))
 })
