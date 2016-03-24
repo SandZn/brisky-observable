@@ -23,18 +23,6 @@ test('observable', function (t) {
   var callCount = 0
   var cnt = 0
   o.on(() => ++callCount)
-  // const o1 = new o.Constructor({ key: 'o1' })
-  // const o2 = new o1.Constructor({ key: 'o2' })
-  // const o3 = new o2.Constructor({ //eslint-disable-line
-  //   key: 'o3',
-  //   on: {
-  //     data: {
-  //       3: function () {
-  //         ++callCount
-  //       }
-  //     }
-  //   }
-  // })
   perf(() => {
     for (var i = 0; i < amount; i++) {
       o.set(++cnt)
@@ -62,6 +50,7 @@ test('observable-1-level-emit', function (t) {
 })
 
 test('observable-2-level-emit', function (t) {
+  // becomes slower because of context
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -81,7 +70,6 @@ test('observ', function (t) {
   var callCount = 0
   var cnt = 0
   o(() => ++callCount)
-  // o(() => ++callCount)
   perf(() => {
     for (var i = 0; i < amount; i++) {
       o.set(++cnt)
@@ -92,33 +80,52 @@ test('observ', function (t) {
   }, 1)
 })
 
-// test('base-observer', function (t) {
-//   const _set = Base.prototype.set
-//   const o = new Base({
-//     define: {
-//       set (val) {
-//         var on = this._on
-//         if (on) {
-//           for (var i = 0, len = on.length; i < len; i++) {
-//             on[i](val)
-//           }
-//         }
-//         return _set.apply(this, arguments)
-//       },
-//       on (fn) {
-//         if (!this._on) {
-//           this._on = []
-//         }
-//         this._on.push(fn)
-//       }
-//     }
-//   })
-//   var cnt = 0
-//   var callCount = 0
-//   o.on(() => ++callCount)
-//   o.on(() => ++callCount)
-//   perf(() => o.set(++cnt), (ms) => {
-//     console.log('vigour-base-observer', ms + 'ms', callCount, Math.round((ms / observResult) * 100) + '%')
-//     t.end()
-//   }, amount)
-// })
+test('observable-observ (used for element/state)', function (t) {
+  // simmilair construct will be used for state / element
+  var cnt = 0
+  var callCount = 0
+  const o = new Base({
+    set (val, stamp) {
+      ++callCount
+    }
+  })
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      o.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('vigour-observable-observ', ms + 'ms', callCount, Math.round((ms / observableResult) * 100) + '%')
+    t.end()
+  }, 1)
+})
+
+test('base-observ', function (t) {
+  // simmilair construct will be used for state / element
+  const o = new Base({
+    set (val, stamp) {
+      var on = this._on
+      if (on) {
+        for (var i = 0, len = on.length; i < len; i++) {
+          on[i](val)
+        }
+      }
+    },
+    define: {
+      on (fn) {
+        if (!this._on) { this._on = [] }
+        this._on.push(fn)
+      }
+    }
+  })
+  var cnt = 0
+  var callCount = 0
+  o.on(() => ++callCount)
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      o.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('vigour-base-observ', ms + 'ms', callCount, Math.round((ms / observableResult) * 100) + '%')
+    t.end()
+  }, 1)
+})
