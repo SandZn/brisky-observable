@@ -7,7 +7,7 @@ const test = require('tape')
 const perf = require('vigour-performance').run
 
 var observableResult
-var amount = 1e7
+var amount = 1e6
 
 // test('base', function (t) {
 //   const o = new Base()
@@ -19,29 +19,22 @@ var amount = 1e7
 //   }, amount)
 // })
 test('observable', function (t) {
-  const o = new Observable(0)
+  const o = new Observable({ key: 'o', val: 0 })
   var callCount = 0
   var cnt = 0
   o.on(() => ++callCount)
-  // o.on(() => ++callCount)
-  // can optmize instances lot more pretty sure!
-  // const o1 = new o.Constructor()
-  // const o2 = new o1.Constructor()
-  // const o3 = new o2.Constructor({
-  //   key: 'o1',
+  // const o1 = new o.Constructor({ key: 'o1' })
+  // const o2 = new o1.Constructor({ key: 'o2' })
+  // const o3 = new o2.Constructor({ //eslint-disable-line
+  //   key: 'o3',
   //   on: {
   //     data: {
-  //       2: function () {
+  //       3: function () {
   //         ++callCount
   //       }
   //     }
   //   }
   // })
-  // console.log(o1)
-  // console.log(o1._on.data === o._on.data)
-  // console.log(o1._on.data.fn === o._on.data.fn)
-  // const o2 = new o1.Constructor()
-  // const o3 = new o2.Constructor()
   perf(() => {
     for (var i = 0; i < amount; i++) {
       o.set(++cnt)
@@ -49,6 +42,36 @@ test('observable', function (t) {
   }, (ms) => {
     console.log('vigour-observable', ms + 'ms', callCount)
     observableResult = ms
+    t.end()
+  }, 1)
+})
+
+test('observable-1-level-emit', function (t) {
+  const o = new Observable({ key: 'o', a: 0 })
+  var callCount = 0
+  var cnt = 0
+  o.a.on(() => ++callCount)
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      o.a.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('vigour-observable', ms + 'ms', callCount, Math.round(ms / observableResult * 100) + '%')
+    t.end()
+  }, 1)
+})
+
+test('observable-2-level-emit', function (t) {
+  const o = new Observable({ key: 'o', a: { b: 0 } })
+  var callCount = 0
+  var cnt = 0
+  o.a.b.on(() => ++callCount)
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      o.a.b.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('vigour-observable', ms + 'ms', callCount, Math.round(ms / observableResult * 100) + '%')
     t.end()
   }, 1)
 })
