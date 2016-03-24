@@ -7,7 +7,7 @@ const test = require('tape')
 const perf = require('vigour-performance').run
 
 var observableResult = 283
-var amount = 5 //15e5
+var amount = 15e5
 
 test.skip('observable', function (t) {
   const o = new Observable({ key: 'o', val: 0 })
@@ -60,9 +60,9 @@ test('observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
+  // console.log(this.path())
   o.a.b.on(
     function () {
-      console.log(this.path())
       ++callCount
     }
   )
