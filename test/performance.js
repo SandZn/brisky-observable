@@ -69,13 +69,14 @@ test('observable', function (t) {
   var cnt = 0
   o.on(() => ++callCount)
   o.on(() => ++callCount)
-  // const o1 = new o.Constructor()
-  // const o2 = new o.Constructor()
-  // const o3 = new o.Constructor()
+  // can optmize instances lot more pretty sure!
+  const o1 = new o.Constructor()
+  const o2 = new o1.Constructor()
+  const o3 = new o2.Constructor()
   // const o2 = new o1.Constructor()
   // const o3 = new o2.Constructor()
   perf(() => o.set(++cnt), (ms) => {
     console.log('vigour-observable', ms + 'ms', callCount, Math.round((ms / observResult) * 100) + '%')
     t.end()
-  }, Math.round(amount))
+  }, Math.round(amount/4))
 })
