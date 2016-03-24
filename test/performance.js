@@ -73,6 +73,7 @@ test('observable', function (t) {
   // const o1 = new o.Constructor()
   // const o2 = new o1.Constructor()
   const o1 = new o.Constructor({
+    key: 'o1',
     on: {
       data: {
         2: function () {
