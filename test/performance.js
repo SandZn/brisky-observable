@@ -23,27 +23,27 @@ test('observable', function (t) {
   var callCount = 0
   var cnt = 0
   o.on(() => ++callCount)
-  o.on(() => ++callCount)
+  // o.on(() => ++callCount)
   // can optmize instances lot more pretty sure!
-  const o1 = new o.Constructor()
-  const o2 = new o1.Constructor()
-  const o3 = new o2.Constructor({
-    key: 'o1',
-    on: {
-      data: {
-        2: function () {
-          ++callCount
-        }
-      }
-    }
-  })
+  // const o1 = new o.Constructor()
+  // const o2 = new o1.Constructor()
+  // const o3 = new o2.Constructor({
+  //   key: 'o1',
+  //   on: {
+  //     data: {
+  //       2: function () {
+  //         ++callCount
+  //       }
+  //     }
+  //   }
+  // })
   // console.log(o1)
   // console.log(o1._on.data === o._on.data)
   // console.log(o1._on.data.fn === o._on.data.fn)
   // const o2 = new o1.Constructor()
   // const o3 = new o2.Constructor()
   perf(() => {
-    for (var i = 0; i < amount; i ++) {
+    for (var i = 0; i < amount; i++) {
       o.set(++cnt)
     }
   }, (ms) => {
@@ -53,17 +53,21 @@ test('observable', function (t) {
   }, 1)
 })
 
-// test('observ', function (t) {
-//   const o = Observ(0)
-//   var callCount = 0
-//   var cnt = 0
-//   o(() => ++callCount)
-//   o(() => ++callCount)
-//   perf(() => o.set(++cnt), (ms) => {
-//     console.log('observ', ms + 'ms', callCount, Math.round(ms/observableResult * 100) + '%')
-//     t.end()
-//   }, amount)
-// })
+test('observ', function (t) {
+  const o = Observ(0)
+  var callCount = 0
+  var cnt = 0
+  o(() => ++callCount)
+  // o(() => ++callCount)
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      o.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('observ', ms + 'ms', callCount, Math.round(ms / observableResult * 100) + '%')
+    t.end()
+  }, 1)
+})
 
 // test('base-observer', function (t) {
 //   const _set = Base.prototype.set
