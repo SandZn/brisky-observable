@@ -70,6 +70,8 @@ test('observable', function (t) {
   o.on(() => ++callCount)
   o.on(() => ++callCount)
   // const o1 = new o.Constructor()
+  // const o2 = new o.Constructor()
+  // const o3 = new o.Constructor()
   // const o2 = new o1.Constructor()
   // const o3 = new o2.Constructor()
   perf(() => o.set(++cnt), (ms) => {
