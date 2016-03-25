@@ -141,7 +141,7 @@ test('observable-2-level-emit', function (t) {
   }, 1)
 })
 
-test.skip('observable-context', function (t) {
+test('observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -163,7 +163,7 @@ test.skip('observable-context', function (t) {
   }, 1)
 })
 
-test.skip('double observable-context', function (t) {
+test('double observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -188,17 +188,16 @@ test.skip('double observable-context', function (t) {
   }, 1)
 })
 
-test.skip('triple observable-context', function (t) {
+test('triple observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
   o.a.b.on(
     function () {
-      console.log(this.path())
       ++callCount
     }
   )
-  const o1 = new o.Constructor({ key: 'oooooo'})
+  const o1 = new o.Constructor({ key: 'oooooo' })
   const o3 = new Observable({ key: 'o3', nested: { nest1: { nest2: { useVal: new o1.Constructor() } } } })
   const o4 = new o3.Constructor({ key: 'o4' })
   // overwrite /w same
@@ -228,7 +227,7 @@ test('observ', function (t) {
   }, 1)
 })
 
-test.skip('base-observ', function (t) {
+test('base-observ', function (t) {
   // simmilair construct will be used for state / element
   const o = new Base({
     set (val, stamp) {
@@ -259,7 +258,7 @@ test.skip('base-observ', function (t) {
   }, 1)
 })
 
-test.skip('observable-set-hook (used for element/state)', function (t) {
+test('observable-set-hook (used for element/state)', function (t) {
   // simmilair construct will be used for state / element
   var cnt = 0
   var callCount = 0
