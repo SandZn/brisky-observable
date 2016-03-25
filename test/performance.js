@@ -8,7 +8,7 @@ const perf = require('vigour-performance').run
 const vstamp = require('vigour-stamp')
 
 var observableResult = 283
-var amount = 15e5
+var amount = 1e6
 // amount = 1e6 // reuslt in 10 mil tests
 // amount = 1
 
@@ -154,7 +154,8 @@ test('observable-context', function (t) {
   const o1 = new o.Constructor({ key: 'oooooo' })
   perf(() => {
     // o.a.b.set('hehe')
-    for (var i = 0; i < amount; i++) {
+    var l = Math.round(amount / 2)
+    for (var i = 0; i < l; i++) {
       o._a._b.set(++cnt)
     }
   }, (ms) => {
@@ -169,7 +170,6 @@ test('double observable-context', function (t) {
   var cnt = 0
   o.a.b.on(
     function () {
-      console.log(this.path())
       ++callCount
     }
   )
@@ -179,7 +179,8 @@ test('double observable-context', function (t) {
   })
   perf(() => {
     // o.a.b.set('hehe')
-    for (var i = 0; i < amount; i++) {
+    var l = Math.round(amount / 3)
+    for (var i = 0; i < l; i++) {
       o._a._b.set(++cnt)
     }
   }, (ms) => {
@@ -203,7 +204,8 @@ test('triple observable-context', function (t) {
   // overwrite /w same
   perf(() => {
     // o.a.b.set('hehe')
-    for (var i = 0; i < amount; i++) {
+    var l = Math.round(amount / 4)
+    for (var i = 0; i < l; i++) {
       o._a._b.set(++cnt)
     }
   }, (ms) => {
