@@ -8,14 +8,15 @@ const perf = require('vigour-performance').run
 
 var observableResult = 283
 var amount = 15e5
+amount = 1
 
-test.skip('observable', function (t) {
+test('observable', function (t) {
   const o = new Observable({ key: 'o', val: 0 })
   var callCount = 0
   var cnt = 0
   o.on(() => ++callCount)
   perf(() => {
-    for (var i = 0; i < amount; i++) {
+    for (var i = 0; i < amount * 2; i++) {
       o.set(++cnt)
     }
   }, (ms) => {
@@ -56,7 +57,7 @@ test.skip('observable-2-level-emit', function (t) {
   }, 1)
 })
 
-test('observable-context', function (t) {
+test.skip('observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -73,7 +74,57 @@ test('observable-context', function (t) {
       o._a._b.set(++cnt)
     }
   }, (ms) => {
-    console.log('vigour-observable', ms + 'ms', callCount, Math.round(ms / observableResult * 100) + '%')
+    console.log('vigour-observable-cntx-1', ms + 'ms', callCount, Math.round(ms / observableResult * 100) + '%')
+    t.end()
+  }, 1)
+})
+
+test('double observable-context', function (t) {
+  const o = new Observable({ key: 'o', a: { b: 0 } })
+  var callCount = 0
+  var cnt = 0
+  o.a.b.on(
+    function () {
+      console.log(this.path())
+      ++callCount
+    }
+  )
+  const o1 = new o.Constructor({ key: 'oooooo'})
+  const o3 = new Observable({
+    nested: { nest: { useVal: new o1.Constructor() } }
+  })
+  perf(() => {
+    // o.a.b.set('hehe')
+    for (var i = 0; i < amount; i++) {
+      o._a._b.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('vigour-observable-cntx-2', ms + 'ms', callCount, Math.round(ms / observableResult * 100) + '%')
+    t.end()
+  }, 1)
+})
+
+test('triple observable-context', function (t) {
+  const o = new Observable({ key: 'o', a: { b: 0 } })
+  var callCount = 0
+  var cnt = 0
+  o.a.b.on(
+    function () {
+      console.log(this.path())
+      ++callCount
+    }
+  )
+  const o1 = new o.Constructor({ key: 'oooooo'})
+  const o3 = new Observable({ key: 'o3', nested: { nest1: { nest2: { useVal: new o1.Constructor() } } } })
+  const o4 = new o3.Constructor({ key: 'o4' })
+  // overwrite /w same
+  perf(() => {
+    // o.a.b.set('hehe')
+    for (var i = 0; i < amount; i++) {
+      o._a._b.set(++cnt)
+    }
+  }, (ms) => {
+    console.log('vigour-observable-cntx-3', ms + 'ms', callCount, Math.round(ms / observableResult * 100) + '%')
     t.end()
   }, 1)
 })
@@ -99,7 +150,7 @@ test.skip('base-observ', function (t) {
     set (val, stamp) {
       var on = this._on
       if (on) {
-        for (var i = 0, len = on.length; i < len; i++) {
+        for (let i = 0, len = on.length; i < len; i++) {
           on[i](val)
         }
       }
