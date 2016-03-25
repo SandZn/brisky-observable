@@ -8,7 +8,7 @@ const perf = require('vigour-performance').run
 
 var observableResult = 283
 var amount = 15e5
-amount = 1
+// amount = 1
 
 test('observable', function (t) {
   const o = new Observable({ key: 'o', val: 0 })
@@ -57,7 +57,7 @@ test.skip('observable-2-level-emit', function (t) {
   }, 1)
 })
 
-test.skip('observable-context', function (t) {
+test('observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -79,7 +79,7 @@ test.skip('observable-context', function (t) {
   }, 1)
 })
 
-test('double observable-context', function (t) {
+test.skip('double observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -104,7 +104,7 @@ test('double observable-context', function (t) {
   }, 1)
 })
 
-test('triple observable-context', function (t) {
+test.skip('triple observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -129,13 +129,13 @@ test('triple observable-context', function (t) {
   }, 1)
 })
 
-test.skip('observ', function (t) {
+test('observ', function (t) {
   const o = Observ(0)
   var callCount = 0
   var cnt = 0
   o(() => ++callCount)
   perf(() => {
-    for (var i = 0; i < amount; i++) {
+    for (var i = 0; i < amount * 2; i++) {
       o.set(++cnt)
     }
   }, (ms) => {
