@@ -8,6 +8,7 @@ const perf = require('vigour-performance').run
 
 var observableResult = 283
 var amount = 15e5
+amount = 5e6
 // amount = 1
 
 test('observable', function (t) {
