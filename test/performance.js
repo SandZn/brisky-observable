@@ -9,7 +9,11 @@ const vstamp = require('vigour-stamp')
 
 var observableResult = 283
 var createBase = 22
-var amount = 1e6
+var objResult = 22
+var amount = 3e6
+
+const isPlainObj = require('vigour-util/is/plainobj')
+const isObj = require('vigour-util/is/obj')
 // amount = 1e6 // reuslt in 10 mil tests
 // amount = 1
 
@@ -48,13 +52,15 @@ test.skip('observable-instances', function (t) {
   }, 1)
 })
 
-test.skip('create-normal-object', function (t) {
+test('create-normal-object', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = { val: i }
     }
   }, (ms) => {
-    console.log('create-normal-object', ms + 'ms', Math.round(ms / observableResult * 100) + '%')
+    objResult = ms
+    //Math.round(ms / observableResult * 100) + '%'
+    console.log('create-normal-object', ms + 'ms')
     t.end()
   })
 })
@@ -66,12 +72,56 @@ test('create-base', function (t) {
     }
   }, (ms) => {
     createBase = ms
-    console.log('create-base', ms + 'ms', Math.round(ms / observableResult * 100) + '%')
+    console.log('create-base', ms + 'ms', 'vs normal obj', Math.round(ms / objResult * 100) + '%')
     t.end()
   })
 })
 
-test.skip('create-observable (and set using false)', function (t) {
+test('is-plain', function (t) {
+  perf(() => {
+    var obj = {}
+    for (var i = 0; i < amount; i++) {
+      var a = isPlainObj(obj)
+    }
+  }, (ms) => {
+    console.log('run is plain', ms + 'ms', 'vs creating base', Math.round(ms / createBase * 100) + '%')
+    t.end()
+  })
+})
+
+
+var isObjresult
+test('is-obj', function (t) {
+  perf(() => {
+    var obj = {}
+    for (var i = 0; i < amount; i++) {
+      var a = isObj(obj)
+    }
+  }, (ms) => {
+    isObjresult = ms
+    console.log('run is obj', ms + 'ms', 'vs creating base', Math.round(ms / createBase * 100) + '%')
+    t.end()
+  })
+})
+
+//var isObject = require('is-object');
+
+// obj && typeof obj === 'object' && !obj._base_version
+
+// have to do this straight saves betweeb 5 - 8% and rly need to get this faster
+test('is-obj-direct', function (t) {
+  perf(() => {
+    var obj = {}
+    for (var i = 0; i < amount; i++) {
+      var a = obj && typeof obj === 'object' && !obj._base_version
+    }
+  }, (ms) => {
+    console.log('run is obj (direct)', ms + 'ms', 'vs creating isObjresult', Math.round(ms / isObjresult * 100) + '%')
+    t.end()
+  })
+})
+
+test('create-observable (and set using false)', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = new Observable(i, false)
@@ -119,13 +169,13 @@ test('create-base-keys', function (t) {
   })
 })
 
-test.skip('create-observable-keys', function (t) {
+test('create-observable-keys', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = new Observable({ a: i }, false)
     }
   }, (ms) => {
-    console.log('create-observable-keys', ms + 'ms', Math.round(ms / createBase * 100) + '%')
+    console.log('create-observable-keys (no-stamp)', ms + 'ms', Math.round(ms / createBase * 100) + '%')
     t.end()
   })
 })
