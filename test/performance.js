@@ -8,11 +8,12 @@ const perf = require('vigour-performance').run
 const vstamp = require('vigour-stamp')
 
 var observableResult = 283
+var createBase = 22
 var amount = 1e6
 // amount = 1e6 // reuslt in 10 mil tests
 // amount = 1
 
-test('observable', function (t) {
+test.skip('observable', function (t) {
   const o = new Observable({ key: 'o', val: 0 })
   var callCount = 0
   var cnt = 0
@@ -28,7 +29,7 @@ test('observable', function (t) {
   }, 1)
 })
 
-test('observable-instances', function (t) {
+test.skip('observable-instances', function (t) {
   const o = new Observable({ key: 'o', val: 0 })
   var callCount = 0
   var cnt = 0
@@ -47,7 +48,7 @@ test('observable-instances', function (t) {
   }, 1)
 })
 
-test('create-normal-object', function (t) {
+test.skip('create-normal-object', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = { val: i }
@@ -64,23 +65,24 @@ test('create-base', function (t) {
       var a = new Base(i)
     }
   }, (ms) => {
+    createBase = ms
     console.log('create-base', ms + 'ms', Math.round(ms / observableResult * 100) + '%')
     t.end()
   })
 })
 
-test('create-observable (and set using false)', function (t) {
+test.skip('create-observable (and set using false)', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = new Observable(i, false)
     }
   }, (ms) => {
-    console.log('create vigour-observable (false)', ms + 'ms', Math.round(ms / observableResult * 100) + '%')
+    console.log('create vigour-observable (false)', ms + 'ms', Math.round(ms / createBase * 100) + '%')
     t.end()
   }, 1)
 })
 
-test('create/close stamps', function (t) {
+test.skip('create/close stamps', function (t) {
   perf(() => {
     var c = vstamp.create
     var end = vstamp.close
@@ -89,28 +91,50 @@ test('create/close stamps', function (t) {
       end(s)
     }
   }, (ms) => {
-    console.log('vigour-stamp (create/close stamps)', ms + 'ms', Math.round(ms / observableResult * 100) + '%')
+    console.log('vigour-stamp (create/close stamps)', ms + 'ms', Math.round(ms / createBase * 100) + '%')
     t.end()
   }, 1)
 })
 
-test('create-observable (and set creating stamps)', function (t) {
+test.skip('create-observable (and set creating stamps)', function (t) {
   perf(() => {
     // lets optmize this case
     for (var i = 0; i < amount; i++) {
       var a = new Observable(i)
     }
   }, (ms) => {
-    console.log('vigour-observable (create stamps)', ms + 'ms', Math.round(ms / observableResult * 100) + '%')
+    console.log('vigour-observable (create stamps)', ms + 'ms', Math.round(ms / createBase * 100) + '%')
     t.end()
   }, 1)
+})
+
+test('create-base-keys', function (t) {
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      var a = new Base({ a: i })
+    }
+  }, (ms) => {
+    console.log('create-base-keys', ms + 'ms', Math.round(ms / createBase * 100) + '%')
+    t.end()
+  })
+})
+
+test.skip('create-observable-keys', function (t) {
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      var a = new Observable({ a: i }, false)
+    }
+  }, (ms) => {
+    console.log('create-observable-keys', ms + 'ms', Math.round(ms / createBase * 100) + '%')
+    t.end()
+  })
 })
 
 // make this all reusable -- after this time for setKey etc
 // then clean up path
 // then do reference
 
-test('observable-1-level-emit', function (t) {
+test.skip('observable-1-level-emit', function (t) {
   const o = new Observable({ key: 'o', a: 0 })
   var callCount = 0
   var cnt = 0
@@ -125,7 +149,7 @@ test('observable-1-level-emit', function (t) {
   }, 1)
 })
 
-test('observable-2-level-emit', function (t) {
+test.skip('observable-2-level-emit', function (t) {
   // becomes slower because of context while loops :(
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
@@ -141,7 +165,7 @@ test('observable-2-level-emit', function (t) {
   }, 1)
 })
 
-test('observable-context', function (t) {
+test.skip('observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -164,7 +188,7 @@ test('observable-context', function (t) {
   }, 1)
 })
 
-test('double observable-context', function (t) {
+test.skip('double observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -189,7 +213,7 @@ test('double observable-context', function (t) {
   }, 1)
 })
 
-test('triple observable-context', function (t) {
+test.skip('triple observable-context', function (t) {
   const o = new Observable({ key: 'o', a: { b: 0 } })
   var callCount = 0
   var cnt = 0
@@ -214,7 +238,7 @@ test('triple observable-context', function (t) {
   }, 1)
 })
 
-test('observ', function (t) {
+test.skip('observ', function (t) {
   const o = Observ(0)
   var callCount = 0
   var cnt = 0
@@ -229,7 +253,7 @@ test('observ', function (t) {
   }, 1)
 })
 
-test('base-observ', function (t) {
+test.skip('base-observ', function (t) {
   // simmilair construct will be used for state / element
   const o = new Base({
     set (val, stamp) {
@@ -260,7 +284,7 @@ test('base-observ', function (t) {
   }, 1)
 })
 
-test('observable-set-hook (used for element/state)', function (t) {
+test.skip('observable-set-hook (used for element/state)', function (t) {
   // simmilair construct will be used for state / element
   var cnt = 0
   var callCount = 0
