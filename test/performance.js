@@ -9,12 +9,12 @@ const vstamp = require('vigour-stamp')
 
 var observableResult = 283
 var createBase = 22
-var objResult = 22
+var objResult = 280
 var amount = 3e6
 
 const isPlainObj = require('vigour-util/is/plainobj')
 const isObj = require('vigour-util/is/obj')
-// amount = 1e6 // reuslt in 10 mil tests
+// amount = 1e6 // reuslts in 10 mil tests
 // amount = 1
 
 test.skip('observable', function (t) {
@@ -52,14 +52,14 @@ test.skip('observable-instances', function (t) {
   }, 1)
 })
 
-test('create-normal-object', function (t) {
+test.skip('create-normal-object', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = { val: i }
     }
   }, (ms) => {
     objResult = ms
-    //Math.round(ms / observableResult * 100) + '%'
+    // Math.round(ms / observableResult * 100) + '%'
     console.log('create-normal-object', ms + 'ms')
     t.end()
   })
@@ -77,7 +77,7 @@ test('create-base', function (t) {
   })
 })
 
-test('is-plain', function (t) {
+test.skip('is-plain', function (t) {
   perf(() => {
     var obj = {}
     for (var i = 0; i < amount; i++) {
@@ -91,7 +91,7 @@ test('is-plain', function (t) {
 
 
 var isObjresult
-test('is-obj', function (t) {
+test.skip('is-obj', function (t) {
   perf(() => {
     var obj = {}
     for (var i = 0; i < amount; i++) {
@@ -109,7 +109,7 @@ test('is-obj', function (t) {
 // obj && typeof obj === 'object' && !obj._base_version
 
 // have to do this straight saves betweeb 5 - 8% and rly need to get this faster
-test('is-obj-direct', function (t) {
+test.skip('is-obj-direct', function (t) {
   perf(() => {
     var obj = {}
     for (var i = 0; i < amount; i++) {
@@ -121,7 +121,7 @@ test('is-obj-direct', function (t) {
   })
 })
 
-test('create-observable (and set using false)', function (t) {
+test.skip('create-observable (and set using false)', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = new Observable(i, false)
