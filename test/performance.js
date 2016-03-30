@@ -1,5 +1,5 @@
 'use strict'
-const Observable = require('../')
+// const Observable = require('../')
 const Base = require('vigour-base')
 const Observ = require('observ')
 // const ObservStruct = require('observ-struct')
@@ -7,10 +7,19 @@ const test = require('tape')
 const perf = require('vigour-performance').run
 const vstamp = require('vigour-stamp')
 
+// Base.prototype.
+var a = new Base({
+  properties: {
+    b: true
+  }
+})
+console.log(a)
+
 var observableResult = 283
 var createBase = 22
-var objResult = 280
-var amount = 3e6
+var objResult = 15
+var objResultString = 30
+var amount = 1e6
 
 const isPlainObj = require('vigour-util/is/plainobj')
 const isObj = require('vigour-util/is/obj')
@@ -52,7 +61,7 @@ test.skip('observable-instances', function (t) {
   }, 1)
 })
 
-test.skip('create-normal-object', function (t) {
+test('create-normal-object', function (t) {
   perf(() => {
     for (var i = 0; i < amount; i++) {
       var a = { val: i }
@@ -61,6 +70,19 @@ test.skip('create-normal-object', function (t) {
     objResult = ms
     // Math.round(ms / observableResult * 100) + '%'
     console.log('create-normal-object', ms + 'ms')
+    t.end()
+  })
+})
+
+test('create-normal-object (string)', function (t) {
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      var a = { val: 'a' + i }
+    }
+  }, (ms) => {
+    objResultString = ms
+    // Math.round(ms / observableResult * 100) + '%'
+    console.log('create-normal-object (string)', ms + 'ms')
     t.end()
   })
 })
@@ -77,6 +99,17 @@ test('create-base', function (t) {
   })
 })
 
+test('create-base (string)', function (t) {
+  perf(() => {
+    for (var i = 0; i < amount; i++) {
+      var a = new Base('a' + i)
+    }
+  }, (ms) => {
+    console.log('create-base (string)', ms + 'ms', 'vs normal obj (string)', Math.round(ms / objResultString * 100) + '%')
+    t.end()
+  })
+})
+
 test.skip('is-plain', function (t) {
   perf(() => {
     var obj = {}
@@ -88,7 +121,6 @@ test.skip('is-plain', function (t) {
     t.end()
   })
 })
-
 
 var isObjresult
 test.skip('is-obj', function (t) {
@@ -104,8 +136,7 @@ test.skip('is-obj', function (t) {
   })
 })
 
-//var isObject = require('is-object');
-
+// var isObject = require('is-object');
 // obj && typeof obj === 'object' && !obj._base_version
 
 // have to do this straight saves betweeb 5 - 8% and rly need to get this faster
@@ -160,7 +191,8 @@ test.skip('create-observable (and set creating stamps)', function (t) {
 
 test('create-base-keys', function (t) {
   perf(() => {
-    for (var i = 0; i < amount; i++) {
+    var am = Math.round(amount/2)
+    for (var i = 0; i < am; i++) {
       var a = new Base({ a: i })
     }
   }, (ms) => {
@@ -169,9 +201,10 @@ test('create-base-keys', function (t) {
   })
 })
 
-test('create-observable-keys', function (t) {
+test.skip('create-observable-keys', function (t) {
   perf(() => {
-    for (var i = 0; i < amount; i++) {
+    var am = Math.round(amount/2)
+    for (var i = 0; i < am; i++) {
       var a = new Observable({ a: i }, false)
     }
   }, (ms) => {
