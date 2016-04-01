@@ -3,4 +3,5 @@ require('./references')
 require('./once')
 require('./components')
 require('./context')
-require('./performance')
+
+require('./performance') // -- bit heavy

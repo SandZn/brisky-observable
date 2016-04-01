@@ -1,48 +1,29 @@
 const Base = require('vigour-base')
 const Observable = require('../../')
-
 const test = require('tape')
-const perf = require('vigour-performance').run
-var amount = 1e7
-var objResult = 0
-var createBase = 0
+const perf = require('vigour-performance')
+var amount = 1e5
 
-test('create-normal-object', function (t) {
-  perf(() => {
-    for (var i = 0; i < amount; i++) {
-      var a = { val: i }
-    }
-  }, (ms) => {
-    objResult = ms
-    // Math.round(ms / observableResult * 100) + '%'
-    console.log('create-normal-object', ms + 'ms')
-    t.end()
-  })
-})
+function createNormalObject () {
+  for (var i = 0; i < amount; i++) {
+    var a = { val: i }
+  }
+}
 
-test('create-base', function (t) {
-  perf(() => {
-    for (var i = 0; i < amount; i++) {
-      var a = new Base(i)
-    }
-  }, (ms) => {
-    createBase = ms
-    console.log('create-base', ms + 'ms', 'vs normal obj', Math.round(ms / objResult * 100) + '%')
-    t.end()
-  })
-})
+function createBase () {
+  for (var i = 0; i < amount; i++) {
+    var a = new Base(i)
+  }
+}
 
-test('create-base-keys', function (t) {
-  perf(() => {
-    var am = Math.round(amount/2)
-    for (var i = 0; i < am; i++) {
-      var a = new Base({ a: i })
-    }
-  }, (ms) => {
-    console.log('create-base-keys', ms + 'ms', Math.round(ms / createBase * 100) + '%')
-    t.end()
-  })
-})
+function createBaseKeys () {
+  var am = Math.round(amount/2)
+  for (var i = 0; i < am; i++) {
+    var a = new Base({ a: i })
+  }
+}
+
+perf(createBase, createNormalObject, 3)
 
 // test('create-observable (and set creating stamps)', function (t) {
 //   perf(() => {
