@@ -1,50 +1,41 @@
 const Base = require('vigour-base')
 const Observable = require('../../')
-const test = require('tape')
-const perf = require('vigour-performance')
-var amount = 1e5
+const test = require('vigour-performance')
+var amount = 1e6
 
 function createNormalObject () {
   for (var i = 0; i < amount; i++) {
-    var a = { val: i }
+    var a = { val: i } //eslint-disable-line
   }
 }
 
 function createBase () {
   for (var i = 0; i < amount; i++) {
-    var a = new Base(i)
+    var a = new Base(i) //eslint-disable-line
   }
 }
 
 function createBaseKeys () {
-  var am = Math.round(amount/2)
+  var am = Math.round(amount / 2)
   for (var i = 0; i < am; i++) {
-    var a = new Base({ a: i })
+    var a = new Base({ a: i }) //eslint-disable-line
   }
 }
 
-perf(createBase, createNormalObject, 3)
+function createObservable () {
+  for (var i = 0; i < amount; i++) {
+    var a = new Observable(i) //eslint-disable-line
+  }
+}
 
-// test('create-observable (and set creating stamps)', function (t) {
-//   perf(() => {
-//     // lets optmize this case
-//     for (var i = 0; i < amount; i++) {
-//       var a = new Observable(i)
-//     }
-//   }, (ms) => {
-//     console.log('vigour-observable (create stamps)', ms + 'ms', Math.round(ms / createBase * 100) + '%')
-//     t.end()
-//   }, 1)
-// })
+function createObservableKeys () {
+  var am = Math.round(amount / 2)
+  for (var i = 0; i < am; i++) {
+    var a = new Observable({ a: i }) //eslint-disable-line
+  }
+}
 
-// test('create-observable-keys', function (t) {
-//   perf(() => {
-//     var am = Math.round(amount/2)
-//     for (var i = 0; i < am; i++) {
-//       var a = new Observable({ a: i }, false)
-//     }
-//   }, (ms) => {
-//     console.log('create-observable-keys (no-stamp)', ms + 'ms', Math.round(ms / createBase * 100) + '%')
-//     t.end()
-//   })
-// })
+test(createBase, createNormalObject, 5)
+test(createBaseKeys, createBase, 3)
+test(createObservable, createBase, 3)
+test(createObservableKeys, createObservable, 3)
