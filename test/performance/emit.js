@@ -25,3 +25,5 @@ function observable () {
 }
 
 perf(observable, observ, 1.25)
+
+// emitting other stuff

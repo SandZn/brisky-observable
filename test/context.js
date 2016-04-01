@@ -4,18 +4,7 @@ const test = require('tape')
 
 test('child constructors and context', function (t) {
   t.plan(1)
-  var Obs = new Observable({
-    define: {
-      handleContextChild (data, event, context) {
-        this.clearContext()
-        this.emit('data', data, event)
-      }
-    },
-    on: {
-      data () {}
-    },
-    Child: 'Constructor'
-  }).Constructor
+  var Obs = new Observable({ Child: 'Constructor' }).Constructor
   var keys = {}
   var injectable = {
     api: {
@@ -25,7 +14,7 @@ test('child constructors and context', function (t) {
           on: {
             data: {
               api () {
-                let key = this.origin.key
+                let key = this.origin().key
                 !keys[key] ? keys[key] = 1 : keys[key]++
               }
             }
@@ -39,7 +28,7 @@ test('child constructors and context', function (t) {
   Obs.prototype.inject(injectable)
   var o = new Obs()
   var ref = new Obs({ key: 'ref' })
-  o.api.language.val = ref
+  o.api.language.set(ref)
   t.equal(keys.ref, 1, 'fired for instance')
 })
 
@@ -65,12 +54,14 @@ test('context override', function (t) {
     'getting noContextField does not get a context path'
   )
   aTemplate.noContextField.set('hello')
+  console.log('???wtf??', aTemplate.noContextField)
   t.equal(
-    Template.prototype.noContextField.val,
+    Template.prototype.noContextField.compute(),
     'hello',
     'setting noContextField does not resolve context'
   )
   t.equal(cnt, 1, 'setting noContextField fires once')
-  aTemplate.noContextField.deep.val = 'hello'
+  console.log('????')
+  aTemplate.noContextField.deep.set('hello')
   t.equal(deepCnt, 1, 'setting noContextField fires once for deep fields')
 })
