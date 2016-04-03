@@ -9,7 +9,6 @@ test('references, keys and remove', function (t) {
     properties: { b: true },
     on: {
       data () {
-        console.log('yo?')
         fired++
       }
     }
