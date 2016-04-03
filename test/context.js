@@ -62,3 +62,33 @@ test('context override', function (t) {
   aTemplate.noContextField.deep.set('hello')
   t.equal(deepCnt, 1, 'setting noContextField fires once for deep fields')
 })
+
+test('resolve', function (t) {
+  t.plan(4)
+  var prev = {}
+  var cnt = { a: 0, a2: 0, c: 0 }
+  var a = new Observable({
+    key: 'a',
+    b: {
+      on: { data () { cnt[this.path()[0]]++ } }
+    },
+    c: {
+      on: { data () { cnt.c++ } }
+    }
+  })
+  var a2 = new a.Constructor({ key: 'a2' }, false)
+
+  testContext(
+    () => a2.b.set(true), 0, 1, 0, 'resolve context')
+  t.equal(a2.b !== a.b, true, 'a2.b is resolved')
+  testContext(() => a2.b.set(false), 0, 1, 0, 'set on resolved context')
+  testContext(() => a.c.remove(), 0, 0, 2, 'remove field from original')
+
+  function testContext (fn, a, a2, c, label) {
+    for (var i in cnt) {
+      prev[i] = cnt[i]
+    }
+    fn()
+    t.deepEqual(cnt, { a: prev.a + a, a2: prev.a2 + a2, c: prev.c + c }, label)
+  }
+})

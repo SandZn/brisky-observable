@@ -1,5 +1,5 @@
 'use strict'
-// require('./references')
+require('./references')
 // require('./once')
 // require('./components')
 require('./context')
