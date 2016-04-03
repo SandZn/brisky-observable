@@ -8,7 +8,7 @@ const observr = Observ(0)
 var observrCallCount = 0
 observr(() => ++observrCallCount)
 
-function observ () {
+function emitObserv () {
   for (var i = 0; i < amount; i++) {
     observr.set(i)
   }
@@ -18,12 +18,13 @@ const obs = new Observable(0)
 var obsCallCount = 0
 obs.on(() => ++obsCallCount)
 
-function observable () {
+function emitObservable () {
   for (var i = 0; i < amount; i++) {
     obs.set(i)
   }
 }
 
-perf(observable, observ, 1.25)
-
+// 1.25 is slower then
+perf(emitObservable, emitObserv, 1.25)
+// also need a setup function unfortunately
 // emitting other stuff
