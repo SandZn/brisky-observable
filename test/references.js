@@ -22,8 +22,32 @@ test('references, keys and remove', function (t) {
 })
 
 test('attach', function (t) {
-  console.log('not there yet!')
-  t.end()
+  t.plan(3)
+  var a, b
+  var store = Array.prototype.slice
+  const other = new Observable({ key: 'other' })
+  const obs = new Observable({
+    key: 'obs',
+    on: {
+      data: {
+        a: [ function () {
+          a = store.call(arguments)
+        }, other ],
+        b: [ function () {
+          b = store.call(arguments)
+        }, other, 'extra']
+      }
+    }
+  })
+  obs.set(true, 'stamp')
+  t.deepEqual(a, [ true, 'stamp', other ], 'set obs to "true", attach fires')
+  // want to stop supporting this!
+  // only thing you can attach has to be an observable
+  // also call it bind -- make the syntax easier to use as well
+  // maybe add it as a part of base ref listener? what abotu not using arrays but an object
+  t.deepEqual(b, [ true, 'stamp', other, 'extra' ], 'multiple attach arguments get passed')
+  other.remove()
+  t.equal(obs.__on.data.attach.keys(), false, 'removing the attached base removes listeners')
 })
 
 // add some perf tests as well -- but do this later!
