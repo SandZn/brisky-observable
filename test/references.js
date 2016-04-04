@@ -4,22 +4,26 @@ var test = require('tape')
 
 test('references, keys and remove', function (t) {
   var fired = 0
-  var obs = new Observable({
+  const obs = new Observable({
+    key: 'obs',
     a: true,
     properties: { b: true },
-    on: {
-      data () {
-        fired++
-      }
-    }
+    on: { data () { fired++ } }
   })
   t.plan(5)
   t.equal(obs.keys().length, 1, 'has correct keys length')
-  var reference = new Observable()
+  const reference = new Observable({ key: 'reference' })
   obs.set(reference)
   t.equal(fired, 1, 'setting obs to a reference fires listener')
-  t.equal(obs.val, reference, 'obs input equals reference')
-  reference.set(void 0)
-  t.equal(fired, 2, 'setting reference to void 0 fires listener')
-  t.equal(reference.val, void 0, 'reference input equals void 0')
+  t.equal(obs.val, reference, 'obs val equals reference')
+  reference.set(true)
+  t.equal(fired, 2, 'setting reference to true fires listener')
+  t.equal(obs.compute(), true, 'obs computed value equals "true"')
 })
+
+test('attach', function (t) {
+  console.log('not there yet!')
+  t.end()
+})
+
+// add some perf tests as well -- but do this later!

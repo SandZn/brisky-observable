@@ -17,7 +17,6 @@ test('remove', function (t) {
   })
   var instance = new obs.Constructor({ key: 'instance' }, false) // eslint-disable-line
   t.plan(1)
-  console.log(' ---> lets lets remove')
   obs.b.remove()
   t.equal(top, 2, 'remove nested field fire for instances')
 })
