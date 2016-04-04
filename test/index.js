@@ -1,7 +1,7 @@
 'use strict'
-require('./references')
+// require('./references')
 // require('./once')
 // require('./components')
-require('./context')
+// require('./context')
 require('./remove')
 // require('./performance') // -- bit heavy
