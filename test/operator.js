@@ -9,7 +9,7 @@ var Observable = require('../')
 var test = require('tape')
 
 test('operator', function (t) {
-  console.log('STARTING STAMP:', vstamp.cnt, 'should be 1')
+  console.log('STARTING STAMP:', vstamp.cnt, 'should be 0')
   var someCondition = false
   var obs = new Observable({
     key: 'obs',
@@ -26,7 +26,7 @@ test('operator', function (t) {
     }
   })
 
-  console.log('?', obs.$transform._mapProperty)
+  // console.log('?', obs.$transform._mapProperty)
   // changing original does not clear the properties of instances thats of course very wrong
   // this measn we need to track instnces and we dont want that for sure!
 
