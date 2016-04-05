@@ -1,15 +1,10 @@
 'use strict'
-var vstamp = require('vigour-stamp')
-var c = vstamp.create
-vstamp.create = function () {
-  console.log(new Error('--------').stack)
-  return c.apply(this, arguments)
-}
+// var vstamp = require('vigour-stamp')
+
 var Observable = require('../')
 var test = require('tape')
 
 test('operator', function (t) {
-  console.log('STARTING STAMP:', vstamp.cnt, 'should be 0')
   var someCondition = false
   var obs = new Observable({
     key: 'obs',
@@ -19,8 +14,7 @@ test('operator', function (t) {
         console.log('transform --->')
         return val.toUpperCase()
       },
-      $add () {
-        console.log('add --->')
+      $condition () {
         return someCondition
       }
     }
@@ -32,10 +26,12 @@ test('operator', function (t) {
 
   // console.log()
   console.log('#START OPERATORS -----> _operators in obs.$transform', obs.$transform.keys('_operators'))
-  console.log(obs.compute())
-  // t.equal(obs.compute(), 'VALUE', 'transform (string) input value')
+  console.log('RESULT!', obs.compute())
 
-  // t.equal(obs.compute(), 'VALUE', 'transform (string) input value')
+  t.equal(obs.compute(), 'value', 'transform (string) input value')
+  someCondition = true
+  t.equal(obs.compute(), 'VALUE', 'transform (string) input value')
+
 
   t.end()
 })
