@@ -3,6 +3,7 @@ var Observable = require('../')
 var test = require('tape')
 
 test('operator primitive transform', function (t) {
+  t.plan(4)
   var someCondition = false
   const obs = new Observable({
     key: 'obs',
@@ -26,17 +27,33 @@ test('operator primitive transform', function (t) {
     t.equal(obs.compute(), 'VALUE', 'transforms to uppercase when reference is set to true, fires listener')
   })
   obs2.set(true)
+})
+
+test('operator object transform', function (t) {
+  const obs = new Observable({
+    key: 'obs',
+    val: 'value',
+    $transform: [
+      (val) => val.toUpperCase(),
+      (val) => { return { field: val, field2: 2 } }
+    ]
+  })
+  t.deepEqual(obs.compute().keys(), ['field', 'field2'], 'correct fields after object transform')
+  t.equal(obs.compute().field.val, 'VALUE', 'use multiple transforms')
   t.end()
 })
 
 test('operator using types', function (t) {
   t.plan(2)
-  const reference = new Observable(true)
+  const reference = new Observable(20)
   const Obs = new Observable({
     properties: {
       $someCase: {
         type: '$transform',
-        $condition: reference
+        $condition: {
+          val: reference,
+          $transform (val) { return val > 10 }
+        }
       }
     },
     Child: 'Constructor'
@@ -50,21 +67,5 @@ test('operator using types', function (t) {
       'setting condition to false fires listener and ignores operator'
     )
   })
-  reference.set(false)
+  reference.set(5)
 })
-
-// time operator
-// add / prepend / type
-/*
-properties: {
-  $ios: {
-    type: '$prepend', //give it a name add to base
-    $condition {
-      $: '~/client/device', //add to observable
-      $transform (val) {
-        return val === 'ios'
-      }
-    }
-  }
-}
-*/
