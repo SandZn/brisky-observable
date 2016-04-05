@@ -30,6 +30,7 @@ test('operator primitive transform', function (t) {
 })
 
 test('operator using types', function (t) {
+  t.plan(2)
   const reference = new Observable(true)
   const Obs = new Observable({
     properties: {
@@ -42,11 +43,14 @@ test('operator using types', function (t) {
   }).Constructor
   const instance = new Obs({ field: { $someCase: 'hello' } })
   t.equal(instance.field.compute(), 'hello', 'nested $transform outputs "hello"')
-
-  console.log('???????', reference.__c, reference)
+  instance.field.once(() => {
+    t.equal(
+      instance.field.compute(),
+      instance.field,
+      'setting condition to false fires listener and ignores operator'
+    )
+  })
   reference.set(false)
-  // t.equal(instance.field.compute(), 'hello', 'nested $transform computes to correct result')
-  console.log(instance.field.compute())
 })
 
 // time operator
