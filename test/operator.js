@@ -11,7 +11,6 @@ test('operator', function (t) {
     val: 'value',
     $transform: {
       val (val) {
-        console.log('transform --->')
         return val.toUpperCase()
       },
       $condition () {
@@ -19,25 +18,21 @@ test('operator', function (t) {
       }
     }
   })
-
-  // console.log('?', obs.$transform._mapProperty)
-  // changing original does not clear the properties of instances thats of course very wrong
-  // this measn we need to track instnces and we dont want that for sure!
-
-  // console.log()
-  console.log('#START OPERATORS -----> _operators in obs.$transform', obs.$transform.keys('_operators'))
-  console.log('RESULT!', obs.compute())
-
   t.equal(obs.compute(), 'value', 'does not transform when condition is falsy')
   someCondition = true
   t.equal(obs.compute(), 'VALUE', 'transforms to uppercase when condition is truthy')
-
+  const obs2 = new Observable()
+  obs.set({ $transform: { $condition: obs2 } })
+  t.equal(obs.compute(), 'value', '$condition set to empty reference does not transform')
+  obs.once(function () {
+    t.equal(obs.compute(), 'VALUE', 'transforms to uppercase when reference is set to true, fires listener')
+  })
+  obs2.set(true)
   t.end()
 })
 
 // time operator
 // add / prepend / type
-
 /*
 properties: {
   $ios: {
