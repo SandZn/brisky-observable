@@ -28,10 +28,9 @@ test('operator', function (t) {
   console.log('#START OPERATORS -----> _operators in obs.$transform', obs.$transform.keys('_operators'))
   console.log('RESULT!', obs.compute())
 
-  t.equal(obs.compute(), 'value', 'transform (string) input value')
+  t.equal(obs.compute(), 'value', 'does not transform when condition is falsy')
   someCondition = true
-  t.equal(obs.compute(), 'VALUE', 'transform (string) input value')
-
+  t.equal(obs.compute(), 'VALUE', 'transforms to uppercase when condition is truthy')
 
   t.end()
 })
