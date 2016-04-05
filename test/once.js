@@ -18,5 +18,5 @@ test('once', function (t) {
   t.equal(callCount, 1, 'fires once for attach listener')
   obs.a.once([ function () { callCount += 1 }, attach ])
   attach.remove()
-  t.equal(obs.a.__on.data.attach.keys(), false, 'remeving attach removes once listener')
+  t.equal(obs.a.__on.data.attach.keys(), false, 'removing attach removes once listener')
 })
