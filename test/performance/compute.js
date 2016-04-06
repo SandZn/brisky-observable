@@ -20,8 +20,16 @@ function computeObservable () {
   }
 }
 
-// 1.25 is slower then
-console.log(base.compute(), obs.compute(), obs.keys('_operators'))
-perf(computeObservable, computeBase, 1)
-// also need a setup function unfortunately
-// emitting other stuff
+var obs2 = new Observable({
+  val: 1,
+  $add: 1
+})
+
+function computeOperators () {
+  for (var i = 0; i < amount; i++) {
+    obs2.compute()
+  }
+}
+
+perf(computeObservable, computeBase, 3)
+perf(computeOperators, computeObservable, 3)
