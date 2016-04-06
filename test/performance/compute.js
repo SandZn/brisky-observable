@@ -21,6 +21,7 @@ function computeObservable () {
 }
 
 // 1.25 is slower then
-perf(computeObservable, computeBase, 1.25)
+console.log(base.compute(), obs.compute(), obs.keys('_operators'))
+perf(computeObservable, computeBase, 1)
 // also need a setup function unfortunately
 // emitting other stuff
