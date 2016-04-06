@@ -70,7 +70,7 @@ test('operator object $transform', function (t) {
   t.equal(obs.compute().field.val, 'VALUE', 'use multiple transforms')
 })
 
-test('operator object $set using condition', function (t) {
+test.skip('operator object $set using condition', function (t) {
   // missing a million usecases e.g. remove
   // nested nested fields etc etc
   // if we want to be able to create normal object fields then i need to add Child:false as functionality
@@ -99,6 +99,8 @@ test('operator object $set using condition', function (t) {
 
 // just finish it so it works for cases
 // multiple use cases but most imoportant object is for on element it self
+// cache may be moved to observable -- lets see in state -- getting rid of state altogether just make ti subscribe
+// using trees
 // val is for props
 // so in element make sure that compute does not result in the val so we actually get the object
 // other option is to pass a value to compute that says dont try to compute nested fields :/ ?
