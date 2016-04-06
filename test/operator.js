@@ -84,14 +84,23 @@ test('operator object $set using condition', function (t) {
     $set: {
       val: 'something',
       field: 'a field!',
-      // bla: null, // this is a problem of course
+      bla: null, // this is a problem of course but want to support it
       // nested fields in set should be normal object probably
       $condition: reference
     }
   })
   console.log(obs.compute())
   console.log(obs.compute().compute()) // this is ofcourse pretty fucking lame!
+  // lets think about this and fix it
   obs.once(() => console.log(obs.compute()))
   reference.set(false)
   t.end()
 })
+
+// just finish it so it works for cases
+// multiple use cases but most imoportant object is for on element it self
+// val is for props
+// so in element make sure that compute does not result in the val so we actually get the object
+// other option is to pass a value to compute that says dont try to compute nested fields :/ ?
+// so by default this is not nessecary .compute.compute // but in some case you can choose .compute('self')
+// or something
