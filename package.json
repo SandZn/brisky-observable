@@ -7,7 +7,6 @@
     "test": "node test | tap-difflet"
   },
   "dependencies": {
-    "benchmark": "^2.1.0",
     "vigour-base": "^2.1.7",
     "vigour-stamp": "^1.0.0",
     "vigour-util": "^2.0.1"
