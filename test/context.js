@@ -6,9 +6,7 @@ test('Basic context case', function (t) {
   var callCount = 0
   const obs = new Observable({
     on: {
-      data () {
-        callCount++
-      }
+      data () { callCount++ }
     },
     Child: 'Constructor'
   })
