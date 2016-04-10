@@ -20,3 +20,4 @@ test('once', function (t) {
   attach.remove()
   t.equal(obs.a.__on.data.attach.keys(), false, 'removing attach removes once listener')
 })
+

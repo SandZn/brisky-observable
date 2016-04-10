@@ -2,6 +2,26 @@
 const Observable = require('../')
 const test = require('tape')
 
+test('Basic context case', function (t) {
+  var callCount = 0
+  const obs = new Observable({
+    on: {
+      data () {
+        callCount++
+      }
+    },
+    Child: 'Constructor'
+  })
+  const a = new obs.Constructor()
+  t.plan(2)
+  callCount = 0
+  a.set({ b: true })
+  t.equal(callCount, 2, 'setting a nested field to true fires twice')
+  callCount = 0
+  a.set({ c: {} })
+  t.equal(callCount, 2, 'setting a nested field to an empty object fires twice')
+})
+
 test('child constructors and context', function (t) {
   t.plan(1)
   var Obs = new Observable({ Child: 'Constructor' }).Constructor
