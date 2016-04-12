@@ -4,7 +4,8 @@
   "description": "fast and mem-efficient observables",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node test | tap-difflet"
+    "test": "node test | tap-difflet",
+    "watch": "nodemon test | tap-difflet"
   },
   "dependencies": {
     "vigour-base": "^2.2.0",
@@ -16,7 +17,8 @@
     "tape": "4.4.0",
     "observ-struct": "^6.0.0",
     "observ": "0.2.0",
-    "vigour-performance": "^1.2.3"
+    "vigour-performance": "^1.2.3",
+    "nodemon": "^1.9.1"
   },
   "repository": {
     "type": "git",
