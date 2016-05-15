@@ -11,7 +11,7 @@
     "travis": "npm run cover -s && istanbul report lcov && ((cat coverage/lcov.info | coveralls) || exit 0)"
   },
   "dependencies": {
-    "vigour-base": "^2.2.8",
+    "vigour-base": "^2.2.9",
     "vigour-stamp": "^1.0.1",
     "vigour-util": "^2.0.8",
     "babelify": "^7.3.0",
