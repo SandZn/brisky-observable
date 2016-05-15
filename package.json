@@ -5,7 +5,10 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "node test | tap-difflet",
-    "watch": "nodemon test | tap-difflet"
+    "watch": "nodemon test | tap-difflet",
+    "cover": "istanbul cover --report none --print detail test/index.js",
+    "docs": "node_modules/vigour-doc/bin/vdoc",
+    "travis": "npm run cover -s && istanbul report lcov && ((cat coverage/lcov.info | coveralls) || exit 0)"
   },
   "dependencies": {
     "vigour-base": "^2.2.8",
@@ -20,7 +23,10 @@
     "observ-struct": "^6.0.0",
     "observ": "0.2.0",
     "vigour-performance": "^1.2.3",
-    "nodemon": "^1.9.1"
+    "nodemon": "^1.9.1",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.3",
+    "vigour-doc": "^1.0.5"
   },
   "repository": {
     "type": "git",
