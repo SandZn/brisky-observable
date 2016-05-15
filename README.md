@@ -10,7 +10,7 @@
 
 Simple, extendable observables - does not require knowledge of flatmaps, reduce or event streams, inspired by [rx-js](http://reactivex.io/) and modelled as [observ-struct](https://www.npmjs.com/package/observ-struct).
 
-Biggest difference adds unqiue change stamps see [vigour-stamp](https://github.com/vigour-io/stamp) for more information
+Adds unqiue change stamps see [vigour-stamp](https://github.com/vigour-io/stamp) for more information
 
 Inherits from [vigour-base](https://github.com/vigour-io/observable)
 
