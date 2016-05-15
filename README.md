@@ -12,7 +12,7 @@ Simple, extendable observables - does not require knowledge of flatmaps, reduce 
 
 Adds unqiue change stamps see [vigour-stamp](https://github.com/vigour-io/stamp) for more information
 
-Inherits from [vigour-base](https://github.com/vigour-io/observable)
+Inherits from [vigour-base](https://github.com/vigour-io/base)
 
 ####operators and set
 ```javascript
