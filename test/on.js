@@ -9,4 +9,3 @@ test('on - remove listener trough set notation', function (t) {
   t.equal(obs.__on.data.fn.a, null, 'removed fn listener a')
   t.end()
 })
-
