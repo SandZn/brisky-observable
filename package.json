@@ -12,7 +12,7 @@
     "perf-browser": "budo ./test/performance/index.js -p 8080 --live"
   },
   "dependencies": {
-    "vigour-base": "^2.3.0",
+    "vigour-base": "^2.3.1",
     "vigour-stamp": "^1.1.0",
     "vigour-util": "^2.0.8",
     "babelify": "^7.3.0",
