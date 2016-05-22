@@ -3,7 +3,7 @@ const Observable = require('../')
 const test = require('tape')
 const Base = require('vigour-base')
 
-test('default components', function (t) {
+test('default types', function (t) {
   t.plan(3)
   const Emitter = require('../lib/emitter')
   const obs = new Observable({

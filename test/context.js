@@ -30,7 +30,7 @@ test('child constructors and context', function (t) {
   var injectable = {
     api: {
       type: 'observable',
-      components: {
+      types: {
         api: {
           on: {
             data: {

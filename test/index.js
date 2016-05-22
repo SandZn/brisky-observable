@@ -1,7 +1,7 @@
 'use strict'
 require('./init')
 require('./references')
-require('./components')
+require('./types')
 require('./context')
 require('./remove')
 require('./once')
