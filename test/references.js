@@ -12,6 +12,8 @@ test('references, keys and remove', function (t) {
   })
   t.plan(5)
   t.equal(obs.keys().length, 1, 'has correct keys length')
+  console.log(obs.keys())
+
   const reference = new Observable({ key: 'reference' })
   obs.set(reference)
   t.equal(fired, 1, 'setting obs to a reference fires listener')
@@ -38,7 +40,7 @@ test('attach', function (t) {
   obs.set(true, 'stamp')
   t.deepEqual(a, [ true, 'stamp', other ], 'set obs to "true", attach fires')
   other.remove()
-  t.equal(obs.__on.data.attach.keys(), false, 'removing the attached base removes listeners')
+  t.equal(obs._emitters.data.attach.keys(), false, 'removing the attached base removes listeners')
 })
 
 // add some perf tests as well -- but do this later!

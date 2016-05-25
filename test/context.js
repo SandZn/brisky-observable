@@ -8,7 +8,7 @@ test('basic context case', function (t) {
     on: {
       data () { callCount++ }
     },
-    Child: 'Constructor'
+    child: 'Constructor'
   })
   const a = new obs.Constructor()
   t.plan(3)
@@ -25,7 +25,7 @@ test('basic context case', function (t) {
 
 test('child constructors and context', function (t) {
   t.plan(1)
-  var Obs = new Observable({ Child: 'Constructor' }).Constructor
+  var Obs = new Observable({ child: 'Constructor' }).Constructor
   var keys = {}
   var injectable = {
     api: {
@@ -42,7 +42,7 @@ test('child constructors and context', function (t) {
           }
         }
       },
-      Child: { type: 'api' },
+      child: { type: 'api' },
       language: true
     }
   }

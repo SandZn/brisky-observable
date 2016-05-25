@@ -42,7 +42,7 @@ test('operator primitive $transform using custom type and $condition', function 
         }
       }
     },
-    Child: 'Constructor'
+    child: 'Constructor'
   }).Constructor
   const instance = new Obs({ field: { $someCase: 'hello' } })
   t.equal(instance.field.compute(), 'hello', 'nested $transform outputs "hello"')

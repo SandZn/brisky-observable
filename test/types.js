@@ -12,7 +12,7 @@ test('default types', function (t) {
   })
   t.equal(obs.base instanceof Base, true, 'type base')
   t.equal(obs.emitter instanceof Emitter, true, 'type emitter')
-  const Obs = new Observable({ Child: Base }).Constructor
+  const Obs = new Observable({ child: Base }).Constructor
   const instance = new Obs({
     something: { type: 'observable' }
   })
