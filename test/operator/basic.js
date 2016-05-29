@@ -1,10 +1,11 @@
 'use strict'
-var Observable = require('../')
+var Observable = require('../../')
 var test = require('tape')
 
 test('operator transform, add', function (t) {
-  console.log('simple operator test')
-  const b = new Observable('-b-')
+  var transformStart
+
+  const b = new Observable('-b')
 
   const a = new Observable({
     val: 'a',
@@ -16,12 +17,15 @@ test('operator transform, add', function (t) {
     random: 100,
     $add: {
       val: a,
-      $add: '-$add-'
+      $add: '-$add'
     },
-    $transform (val) {
-      console.log('???', val)
+    $transform (val, start) {
+      transformStart = start
       return this.random.compute() + '-$transform-' + val
     }
   })
-  console.log(obs.compute(), obs.keys(), obs.keys('operator'))
+  t.equal(obs.compute(), '100-$transform-obs-a-b-$add', 'correct output')
+  obs.compute('start!')
+  t.equal(transformStart, 'start!', 'correct start value')
+  t.end()
 })
