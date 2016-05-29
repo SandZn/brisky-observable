@@ -23,7 +23,7 @@ test('operator transform, add', function (t) {
       return this.random.compute() + '-$transform-' + val
     }
   })
-  console.log(obs.compute(), obs.keys())
+  console.log(obs.compute(), obs.keys(), obs.keys('operator'))
 })
 
 // test('operator $primitive transform using $condition', function (t) {
