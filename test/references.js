@@ -22,24 +22,24 @@ test('references, keys and remove', function (t) {
   t.equal(obs.compute(), true, 'obs computed value equals "true"')
 })
 
-// test('attach', function (t) {
-//   t.plan(2)
-//   var a
-//   const other = new Observable({ key: 'other' })
-//   const obs = new Observable({
-//     key: 'obs',
-//     on: {
-//       data: {
-//         a: [ function () {
-//           a = Array.prototype.slice.call(arguments)
-//         }, other ]
-//       }
-//     }
-//   })
-//   obs.set(true, 'stamp')
-//   t.deepEqual(a, [ true, 'stamp', other ], 'set obs to "true", attach fires')
-//   other.remove()
-//   t.equal(obs._emitters.data.attach.keys(), false, 'removing the attached base removes listeners')
-// })
+test('attach', function (t) {
+  t.plan(2)
+  var a
+  const other = new Observable({ key: 'other' })
+  const obs = new Observable({
+    key: 'obs',
+    on: {
+      data: {
+        a: [ function () {
+          a = Array.prototype.slice.call(arguments)
+        }, other ]
+      }
+    }
+  })
+  obs.set(true, 'stamp')
+  t.deepEqual(a, [ true, 'stamp', other ], 'set obs to "true", attach fires')
+  other.remove()
+  t.same(obs._emitters.data.attach.keys(), [], 'removing the attached base removes listeners')
+})
 
 // add some perf tests as well -- but do this later!
