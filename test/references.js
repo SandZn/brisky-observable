@@ -22,6 +22,27 @@ test('references, keys and remove', function (t) {
   t.equal(obs.compute(), true, 'obs computed value equals "true"')
 })
 
+test('references - listensOnBase', function (t) {
+  const a = new Observable({
+    a: true,
+    b: true,
+    c: true
+  })
+  const obs = new Observable({
+    key: 'obs',
+    a: {
+      val: a.b
+    }
+  })
+  t.same(obs.a.listensOnBase.keys(), [ 1 ])
+  obs.a.set(false)
+  t.same(obs.a.listensOnBase.keys(), [])
+  obs.a.set(a.b)
+  t.same(obs.a.listensOnBase.keys(), [ 2 ])
+  obs.a.remove()
+  t.end()
+})
+
 test('attach', function (t) {
   t.plan(2)
   var a
