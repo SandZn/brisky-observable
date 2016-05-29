@@ -58,6 +58,18 @@ test('operator - $transform - object', function (t) {
   t.end()
 })
 
+test('operator - $transform - null', function (t) {
+  const obs = new Observable({
+    val: 'hello',
+    $add: 'bla',
+    $transform (val, start) {
+      return null
+    }
+  })
+  t.equal(obs.compute(), obs, 'ignore operators on $transform null')
+  t.end()
+})
+
 test('operator - $transform - context', function (t) {
   const obs = new Observable({
     noReference: true,
