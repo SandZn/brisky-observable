@@ -117,3 +117,19 @@ test('resolve', function (t) {
     t.deepEqual(cnt, { a: prev.a + a, a2: prev.a2 + a2, c: prev.c + c }, label)
   }
 })
+
+test('context- remove', function (t) {
+  var a = new Observable({
+    key: 'a',
+    b: {
+      on: {
+        data () {
+          t.same(this.path(), [ 'a2', 'b' ], 'correct context removal')
+          t.end()
+        }
+      }
+    }
+  })
+  var a2 = new a.Constructor({ key: 'a2' }, false)
+  a2.set({ b: null })
+})
