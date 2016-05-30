@@ -9,16 +9,10 @@ var base = new Base({
   c: true
 })
 
-function keysInternal () {
-  for (var i = 0; i < amount; i++) {
-    base.keysInternal(base._keys, '_keys', base.keysCheck)
-  }
-}
-
 function keys () {
   for (var i = 0; i < amount; i++) {
     base.keys()
   }
 }
 
-perf(keysInternal, keys, 1, 100)
+perf(keys, function nothing () {}, 1, 100)

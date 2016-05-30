@@ -2,7 +2,7 @@
 const Observable = require('../../')
 const Base = require('vigour-base')
 const perf = require('vigour-performance')
-var amount = 1e6
+var amount = 1e5
 
 var base = new Base(1)
 function computeBase () {
@@ -31,5 +31,19 @@ function computeOperators () {
   }
 }
 
+function createObservable () {
+  for (var i = 0; i < amount; i++) {
+    let obs = new Observable(1) //eslint-disable-line
+  }
+}
+
+function computeAndCreateObservable () {
+  for (var i = 0; i < amount; i++) {
+    let obs = new Observable(1)
+    obs.compute()
+  }
+}
+
 perf(computeObservable, computeBase, 3)
 perf(computeOperators, computeObservable, 3)
+perf(computeAndCreateObservable, createObservable, 1.5)

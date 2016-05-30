@@ -9,3 +9,6 @@ test('on - remove listener trough set notation', function (t) {
   t.equal(obs._emitters.data.fn.a, null, 'removed fn listener a')
   t.end()
 })
+
+// do a rewrite of the dirty dirty on/off syntax
+// its so mess it not even funny
