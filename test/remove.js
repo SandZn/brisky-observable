@@ -36,22 +36,23 @@ test('remove', function (t) {
   t.equal(remove, 2, 'removed obs fire for instances')
 })
 
-test('remove - fires data listeners when completed', function (t) {
-  t.plan(1)
-  const obs = new Observable({
-    a: {},
-    b: {},
-    on: {
-      data: {
-        playStateItems (data, stamp) {
-          vstamp.on(stamp, () => {
-            const keys = this.keys()
-            const count = keys.length
-            t.equals(count, 1, 'correct number of keys')
-          })
-        }
-      }
-    }
-  })
-  obs.a.remove()
-})
+// use done
+// test('remove - fires data listeners when completed', function (t) {
+//   t.plan(1)
+//   const obs = new Observable({
+//     a: {},
+//     b: {},
+//     on: {
+//       data: {
+//         playStateItems (data, stamp) {
+//           vstamp.on(stamp, () => {
+//             const keys = this.keys()
+//             const count = keys.length
+//             t.equals(count, 1, 'correct number of keys')
+//           })
+//         }
+//       }
+//     }
+//   })
+//   obs.a.remove()
+// })
