@@ -71,6 +71,7 @@ test('references - string notation', function (t) {
       items: {
         on: {
           data () {
+            t.ok(true, 'fires listener')
             t.end()
           }
         }
