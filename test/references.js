@@ -2,7 +2,7 @@
 var Observable = require('../')
 var test = require('tape')
 
-test('references, keys and remove', function (t) {
+test('references - keys and remove', function (t) {
   var fired = 0
   const obs = new Observable({
     key: 'obs',
@@ -43,7 +43,7 @@ test('references - listensOnBase', function (t) {
   t.end()
 })
 
-test('attach', function (t) {
+test('references - attach', function (t) {
   t.plan(2)
   var a
   const other = new Observable({ key: 'other' })
@@ -58,9 +58,30 @@ test('attach', function (t) {
     }
   })
   obs.set(true, 'stamp')
-  t.deepEqual(a, [ true, 'stamp', other ], 'set obs to "true", attach fires')
+  t.same(a, [ true, 'stamp', other ], 'set obs to "true", attach fires')
   other.remove()
   t.same(obs._emitters.data.attach.keys(), [], 'removing the attached base removes listeners')
 })
 
-// add some perf tests as well -- but do this later!
+test('references - string notation', function (t) {
+  const obs = new Observable({
+    key: 'obs',
+    items: {},
+    channels: {
+      items: {
+        on: {
+          data () {
+            t.end()
+          }
+        }
+      }
+    }
+  })
+  obs.set({
+    items: {
+      a: '$root.channels.items.a'
+    }
+  })
+})
+
+// @todo: add some perf tests as well -- but do this later!
