@@ -28,7 +28,7 @@ var person = new Observable({ name: 'a name' })
 
 person.name.on(() => {
   // logs "A NAME" when set to the reference
-  console.log('hey a name!', this.compute())
+  console.log('hey a name!', person.name.compute())
 })
 
 // create an observing reference from person.name to name
