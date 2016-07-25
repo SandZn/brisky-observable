@@ -15,8 +15,8 @@ function emitObserv () {
 }
 
 const obs = new Observable(0)
-var obsCallCount = 0
-obs.on(() => ++obsCallCount)
+global.obsCallCount = 0
+obs.on(() => ++global.obsCallCount)
 
 function emitObservable () {
   for (var i = 0; i < amount; i++) {
