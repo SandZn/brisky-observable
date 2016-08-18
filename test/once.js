@@ -2,7 +2,7 @@
 const Observable = require('../')
 const test = require('tape')
 
-test('once', function (t) {
+test('once', (t) => {
   var callCount = 0
   const obs = new Observable({ a: true })
   obs.a.once(() => { callCount += 1 })
@@ -12,7 +12,7 @@ test('once', function (t) {
   t.end()
 })
 
-test('once - attach', function (t) {
+test('once - attach', (t) => {
   var callCount = 0
   const obs = new Observable({ a: true })
   const attach = new Observable()
@@ -26,7 +26,7 @@ test('once - attach', function (t) {
   t.end()
 })
 
-test('once - base', function (t) {
+test('once - base', (t) => {
   var callCount = 0
   const obs = new Observable({ a: true })
   const other = new Observable()
@@ -38,7 +38,7 @@ test('once - base', function (t) {
   t.end()
 })
 
-test('once - double', function (t) {
+test('once - double', (t) => {
   var callCount = 0
   var normalCount = 0
   const obs = new Observable({ a: true })
@@ -54,7 +54,7 @@ test('once - double', function (t) {
   t.end()
 })
 
-test('once - removed target', function (t) {
+test('once - add listener to a removed target', (t) => {
   const obs = new Observable()
   obs.remove()
   obs.once(() => {})

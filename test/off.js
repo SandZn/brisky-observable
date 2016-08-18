@@ -2,7 +2,7 @@
 var Observable = require('../')
 var test = require('tape')
 
-test('off - remove listener by key', function (t) {
+test('off - remove listener by key', (t) => {
   function labelled () {}
   const attach = new Observable()
 
