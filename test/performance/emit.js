@@ -27,7 +27,7 @@ function emitObservable () {
 }
 
 // add base, add attach
-perf(emitObservable, emitObserv, 1.25)
+// perf(emitObservable, emitObserv, 1.25)
 
 const attach = new Observable()
 const obsAttach = new Observable() //eslint-disable-line
@@ -40,7 +40,7 @@ function emitObservableAttach () {
 }
 
 // 0.25 is a good default error measurement margin
-perf(emitObservableAttach, emitObservable, 1.25)
+// perf(emitObservableAttach, emitObservable, 1.25)
 
 var obsCallCountRef = 0
 const ref = new Observable()
@@ -55,23 +55,23 @@ function emitObservableReference () {
 
 // allmost 10 times faster like this...
 // fires listeners on obsRef and ref
-perf(emitObservableReference, emitObservable, 2)
+// perf(emitObservableReference, emitObservable, 2)
 
-var obsCallCountRefSpecial = 0
+// var obsCallCountRefSpecial = 0
 const refSpecial = new Observable()
 const obsRefSpecial = new Observable() //eslint-disable-line
-obsRefSpecial.on('spesh', refSpecial)
-obsRefSpecial.on('spesh', () => ++obsCallCountRefSpecial)
+refSpecial.on('spesh', obsRefSpecial)
+// obsRefSpecial.on('spesh', () => ++obsCallCountRefSpecial)
 
 function emitObservableReferenceSpecial () {
   for (var i = 0; i < amount; i++) {
-    refSpecial.set(i)
+    refSpecial.emit('spesh', i)
   }
 }
 
 // allmost 10 times faster like this...
 // fires listeners on obsRef and ref
-perf(emitObservableReferenceSpecial, emitObservableReference, 3)
+perf(emitObservableReferenceSpecial, emitObservable, 2)
 
 // 1.25 is slower then
 // browser is way faster for emit observable
