@@ -30,9 +30,7 @@ test('once - base', function (t) {
   var callCount = 0
   const obs = new Observable({ a: true })
   const other = new Observable()
-  other.on(() => {
-    callCount++
-  })
+  other.on(() => { callCount++ })
   obs.a.once(other)
   obs.a.set(false)
   obs.a.set(true)
