@@ -17,8 +17,8 @@ function emitObserv () {
 }
 
 const obs = new Observable(0)
-global.obsCallCount = 0
-obs.on(() => ++global.obsCallCount)
+var obsCallCount = 0
+obs.on(() => ++obsCallCount)
 
 function emitObservable () {
   for (var i = 0; i < amount; i++) {
@@ -27,23 +27,11 @@ function emitObservable () {
 }
 
 // add base, add attach
-
 perf(emitObservable, emitObserv, 1.25)
-
-const ref = new Observable()
-const obsRef = new Observable(ref) //eslint-disable-line
-
-function emitObservableReference () {
-  for (var i = 0; i < amount; i++) {
-    ref.set(i)
-  }
-}
-
-perf(emitObservableReference, emitObservable, 1.25)
 
 const attach = new Observable()
 const obsAttach = new Observable() //eslint-disable-line
-obsAttach.on([ () => ++global.obsCallCount, attach ])
+obsAttach.on([ () => ++obsCallCount, attach ])
 
 function emitObservableAttach () {
   for (var i = 0; i < amount; i++) {
@@ -51,7 +39,40 @@ function emitObservableAttach () {
   }
 }
 
+// 0.25 is a good default error measurement margin
 perf(emitObservableAttach, emitObservable, 1.25)
+
+var obsCallCountRef = 0
+const ref = new Observable()
+const obsRef = new Observable(ref) //eslint-disable-line
+obsRef.on(() => ++obsCallCountRef)
+
+function emitObservableReference () {
+  for (var i = 0; i < amount; i++) {
+    ref.set(i)
+  }
+}
+
+// allmost 10 times faster like this...
+// fires listeners on obsRef and ref
+perf(emitObservableReference, emitObservable, 2)
+
+var obsCallCountRefSpecial = 0
+const refSpecial = new Observable()
+const obsRefSpecial = new Observable() //eslint-disable-line
+obsRefSpecial.on('spesh', refSpecial)
+obsRefSpecial.on('spesh', () => ++obsCallCountRefSpecial)
+
+function emitObservableReferenceSpecial () {
+  for (var i = 0; i < amount; i++) {
+    refSpecial.set(i)
+  }
+}
+
+// allmost 10 times faster like this...
+// fires listeners on obsRef and ref
+perf(emitObservableReferenceSpecial, emitObservableReference, 3)
+
 // 1.25 is slower then
 // browser is way faster for emit observable
 // way faster in es5 still...
