@@ -25,6 +25,6 @@ function emitObservable () {
 }
 
 // 1.25 is slower then
-perf(emitObservable, emitObserv, 1.25)
+perf(emitObservable, emitObserv, 1)
 // also need a setup function unfortunately
 // emitting other stuff

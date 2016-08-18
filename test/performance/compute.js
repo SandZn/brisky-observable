@@ -33,7 +33,7 @@ function computeOperators () {
 
 function createObservable () {
   for (var i = 0; i < amount; i++) {
-    let obs = new Observable(1) //eslint-disable-line
+    let obs = new Observable(1) // eslint-disable-line
   }
 }
 
