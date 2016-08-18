@@ -26,8 +26,32 @@ function emitObservable () {
   }
 }
 
+// add base, add attach
+
 perf(emitObservable, emitObserv, 1.25)
 
+const ref = new Observable()
+const obsRef = new Observable(ref) //eslint-disable-line
+
+function emitObservableReference () {
+  for (var i = 0; i < amount; i++) {
+    ref.set(i)
+  }
+}
+
+perf(emitObservableReference, emitObservable, 1.25)
+
+const attach = new Observable()
+const obsAttach = new Observable() //eslint-disable-line
+obsAttach.on([ () => ++global.obsCallCount, attach ])
+
+function emitObservableAttach () {
+  for (var i = 0; i < amount; i++) {
+    obsAttach.set(i)
+  }
+}
+
+perf(emitObservableAttach, emitObservable, 1.25)
 // 1.25 is slower then
 // browser is way faster for emit observable
 // way faster in es5 still...

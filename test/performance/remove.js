@@ -1,7 +1,6 @@
 'use strict'
 const Observable = require('../../')
 // const Base = require('vigour-base')
-
 const perf = require('vigour-performance')
 var amount = 1e5
 
@@ -27,6 +26,9 @@ function create () {
   }
 }
 
+// create is rly rly fast 100k 4ms
+// perf(create, function x() {})
 // remove and create, remove fires listener
+// remove is a lto slower since it has to loop trough emitters for example *using hasownprop)
+perf(removeNoListeners, create, 7)
 perf(remove, removeNoListeners, 4)
-perf(remove, create, 30)
