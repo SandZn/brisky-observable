@@ -10,5 +10,18 @@ test('on - remove listener trough set notation', function (t) {
   t.end()
 })
 
+test('on - dont add key twice', function (t) {
+  const obs = new Observable({ on: { data: { a () {} } } })
+  t.same(obs.emitters.data.fn.keys(), [ 'a' ], 'add fn listener a')
+  obs.set({ on: { data: { a: [ () => {} ] } } })
+  t.same(obs.emitters.data.attach.keys(), [ 'a' ], 'add attach listener a')
+  // remove listener on fn
+  t.same(obs.emitters.data.fn.keys(), [], 'remove fn listener a')
+  t.end()
+})
+
 // do a rewrite of the dirty dirty on/off syntax
 // its so mess it not even funny
+
+// OVERWRITE TESTS
+// RESOLVE TESTS
