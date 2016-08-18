@@ -6,11 +6,15 @@ test('once', function (t) {
   var callCount = 0
   const obs = new Observable({ a: true })
   obs.a.once(() => { callCount += 1 })
-  t.plan(3)
   obs.a.set({ val: false })
   obs.a.set({ val: true })
   t.equal(callCount, 1, 'fires once for function listener')
-  callCount = 0
+  t.end()
+})
+
+test('once - attach', function (t) {
+  var callCount = 0
+  const obs = new Observable({ a: true })
   const attach = new Observable()
   obs.a.once([ () => { callCount += 1 }, attach ])
   obs.a.set(false)
@@ -19,6 +23,21 @@ test('once', function (t) {
   obs.a.once([ () => { callCount += 1 }, attach ])
   attach.remove()
   t.same(obs.a._emitters.data.attach.keys(), [], 'removing attach removes once listener')
+  t.end()
+})
+
+test('once - base', function (t) {
+  var callCount = 0
+  const obs = new Observable({ a: true })
+  const other = new Observable()
+  other.on(() => {
+    callCount++
+  })
+  obs.a.once(other)
+  obs.a.set(false)
+  obs.a.set(true)
+  t.equal(callCount, 1, 'fires once for attach listener')
+  t.end()
 })
 
 test('once - double', function (t) {
