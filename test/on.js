@@ -36,6 +36,17 @@ test('on - removed target', (t) => {
   t.end()
 })
 
+test('on - resolve context', (t) => {
+  const obs = new Observable({
+    a: { on: { data () {} } }
+  })
+  const instance = new obs.Constructor()
+  console.log(instance.a.emitters.data.fn)
+  instance.a.emitters.data.on(() => {})
+  // t.equal('data' in obs.emitters, false, 'did not add listener on removed observable')
+  t.end()
+})
+
 // do a rewrite of the dirty dirty on/off syntax
 // its so mess it not even funny
 
