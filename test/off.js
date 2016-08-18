@@ -2,11 +2,11 @@
 var Observable = require('../')
 var test = require('tape')
 
-test('off - remove listener trough set notation', function (t) {
+test('off - remove listener by key', function (t) {
   const obs = new Observable({ on: { data: { a () {} } } })
-  t.equal('a' in obs._emitters.data.fn, true, 'add fn listener a')
-  obs.set({ on: { data: { a: null } } })
-  t.equal(obs._emitters.data.fn.a, null, 'removed fn listener a')
+  t.same(obs.emitters.data.fn.keys(), [ 'a' ], 'add fn listener a')
+  obs.off('data', 'a')
+  t.same(obs.emitters.data.fn.keys(), [], 'remove fn listener a')
   t.end()
 })
 
