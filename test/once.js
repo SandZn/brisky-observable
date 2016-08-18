@@ -53,3 +53,11 @@ test('once - double', function (t) {
   t.equal(obs.a.emitters.data.fn.keys().length, 3, 'removed once listeners')
   t.end()
 })
+
+test('once - removed target', function (t) {
+  const obs = new Observable()
+  obs.remove()
+  obs.once(() => {})
+  t.equal('data' in obs.emitters, false, 'did not add once listener on removed observable')
+  t.end()
+})
