@@ -11,6 +11,16 @@ test('on - basic', (t) => {
   t.end()
 })
 
+test('on - instances', (t) => {
+  const obs = new Observable()
+  const a = new obs.Constructor()
+  a.on('data', () => {
+    t.ok(true, 'fires listener on instance')
+    t.end()
+  })
+  obs.set(1)
+})
+
 test('on - remove listener trough set notation', (t) => {
   const obs = new Observable({ on: { data: { a () {} } } })
   t.equal('a' in obs._emitters.data.fn, true, 'add fn listener a')
@@ -40,7 +50,8 @@ test('on - add listener to a removed target', (t) => {
 test('on - removed target', (t) => {
   const obs = new Observable()
   obs.remove()
-  obs.set({ data: { g () {} } })
+  obs.on(() => {})
+  // obs.set({ on: { data: { g () {} } } }) // this does something weird... maybe block sets on removed thigns
   t.equal('data' in obs.emitters, false, 'did not add listener on removed observable')
   t.end()
 })
