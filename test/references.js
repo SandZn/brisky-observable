@@ -43,6 +43,27 @@ test('references - listensOnBase', function (t) {
   t.end()
 })
 
+test('references - listensOnBase', function (t) {
+  const a = new Observable({
+    a: true,
+    b: true,
+    c: true
+  })
+  const obs = new Observable({
+    key: 'obs',
+    a: {
+      val: a.b
+    }
+  })
+  t.same(obs.a.listensOnBase.keys(), [ 1 ])
+  obs.a.set(false)
+  t.same(obs.a.listensOnBase.keys(), [])
+  obs.a.set(a.b)
+  t.same(obs.a.listensOnBase.keys(), [ 2 ])
+  obs.a.remove()
+  t.end()
+})
+
 test('references - attach', function (t) {
   t.plan(2)
   var a
@@ -85,4 +106,13 @@ test('references - string notation', function (t) {
   })
 })
 
-// @todo: add some perf tests as well -- but do this later!
+test('references - custom emitter type', function (t) {
+  const obs = new Observable()
+  const ref = new Observable()
+  ref.on('special', obs)
+  obs.on('special', () => {
+    t.ok(true, 'fires listener')
+    t.end()
+  })
+  ref.emit('special')
+})

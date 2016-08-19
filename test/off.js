@@ -1,6 +1,6 @@
 'use strict'
-var Observable = require('../')
-var test = require('tape')
+const Observable = require('../')
+const test = require('tape')
 
 test('off - remove listener by key and function', (t) => {
   function labelled () {}
