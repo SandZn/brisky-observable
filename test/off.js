@@ -2,10 +2,9 @@
 var Observable = require('../')
 var test = require('tape')
 
-test('off - remove listener by key', (t) => {
+test('off - remove listener by key and function', (t) => {
   function labelled () {}
   const attach = new Observable()
-
   const obs = new Observable({
     on: {
       data: {
@@ -24,7 +23,15 @@ test('off - remove listener by key', (t) => {
   t.end()
 })
 
-// do a rewrite of the dirty dirty on/off syntax
-// its so mess it not even funny
-
-// OFF KEY TESTS -- NEED RESOLVE TESTS
+test('off - resolve context (method)', (t) => {
+  const obs = new Observable({ a: { on: { data () {} } } })
+  const instance = new obs.Constructor({ key: 'instance' })
+  t.same(obs.a.emitters.data.fn.keys(), [ 'val' ], 'data.fn has val')
+  instance.a.off('data')
+  t.same(obs.a.emitters.data.fn.keys(), [ 'val' ], 'data.fn does not get extra listeners')
+  t.same(instance.a.emitters.data.fn.keys(), [], 'instance has extra listener')
+  t.ok(instance.a.hasOwnProperty('_emitters'), 'instance has own emitters')
+  t.ok(instance.a._emitters.hasOwnProperty('_data'), 'emitters own data property')
+  t.ok(instance.a._emitters._data.hasOwnProperty('fn'), 'data property has own fn')
+  t.end()
+})
