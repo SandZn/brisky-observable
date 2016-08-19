@@ -36,14 +36,29 @@ test('on - removed target', (t) => {
   t.end()
 })
 
-test('on - resolve context', (t) => {
-  const obs = new Observable({
-    a: { on: { data () {} } }
-  })
-  const instance = new obs.Constructor()
-  console.log(instance.a.emitters.data.fn)
-  instance.a.emitters.data.on(() => {})
-  // t.equal('data' in obs.emitters, false, 'did not add listener on removed observable')
+test('on - resolve context (method)', (t) => {
+  const obs = new Observable({ a: { on: { data () {} } } })
+  const instance = new obs.Constructor({ key: 'instance' })
+  t.same(obs.a.emitters.data.fn.keys(), [ 'val' ], 'data.fn has val')
+  instance.a.on(() => {})
+  t.same(obs.a.emitters.data.fn.keys(), [ 'val' ], 'data.fn does not get extra listeners')
+  t.same(instance.a.emitters.data.fn.keys(), [ 'val', 1 ], 'instance has extra listener')
+  t.ok(instance.a.hasOwnProperty('_emitters'), 'instance has own emitters')
+  t.ok(instance.a._emitters.hasOwnProperty('_data'), 'emitters own data property')
+  t.ok(instance.a._emitters._data.hasOwnProperty('fn'), 'data property has own fn')
+  t.end()
+})
+
+test('on - resolve context (set)', (t) => {
+  const obs = new Observable({ a: { on: { data () {} } } })
+  const instance = new obs.Constructor({ key: 'instance' })
+  t.same(obs.a.emitters.data.fn.keys(), [ 'val' ], 'data.fn has val')
+  instance.set({ a: { on: { data () {} } } })
+  t.same(obs.a.emitters.data.fn.keys(), [ 'val' ], 'data.fn does not get extra listeners')
+  t.same(instance.a.emitters.data.fn.keys(), [ 'val', 1 ], 'instance has extra listener')
+  t.ok(instance.a.hasOwnProperty('_emitters'), 'instance has own emitters')
+  t.ok(instance.a._emitters.hasOwnProperty('_data'), 'emitters own data property')
+  t.ok(instance.a._emitters._data.hasOwnProperty('fn'), 'data property has own fn')
   t.end()
 })
 
