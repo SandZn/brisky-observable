@@ -2,6 +2,15 @@
 const Observable = require('../')
 const test = require('tape')
 
+test('on - basic', (t) => {
+  const obs = new Observable()
+  obs.on('data', () => {})
+  t.equal('data' in obs.emitters, true, 'added data listener')
+  obs.on('special', () => {})
+  t.equal('special' in obs.emitters, true, 'added special listener')
+  t.end()
+})
+
 test('on - remove listener trough set notation', (t) => {
   const obs = new Observable({ on: { data: { a () {} } } })
   t.equal('a' in obs._emitters.data.fn, true, 'add fn listener a')
