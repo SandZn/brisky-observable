@@ -13,12 +13,16 @@ test('on - basic', (t) => {
 
 test('on - instances', (t) => {
   const obs = new Observable()
+  t.plan(2)
   const a = new obs.Constructor()
   a.on('data', () => {
     t.ok(true, 'fires listener on instance')
-    t.end()
   })
   obs.set(1)
+  a.on('special', () => {
+    t.ok(true, 'special fires listener on instance')
+  })
+  obs.emit('special')
 })
 
 test('on - remove listener trough set notation', (t) => {
