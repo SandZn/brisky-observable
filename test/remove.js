@@ -5,8 +5,8 @@ const vstamp = require('vigour-stamp')
 
 test('remove', function (t) {
   var top = 0
-  var remove = 0
   var deep = 0
+  var remove = 0
   var keys
   const obs = new Observable({
     key: 'obs',
@@ -21,7 +21,7 @@ test('remove', function (t) {
     }
   })
   const instance = new obs.Constructor({ key: 'instance' }, false) // eslint-disable-line
-  t.plan(7)
+  t.plan(8)
   obs.keys()
   obs.b.remove()
   t.same(keys, [ 'a', 'b' ], 'removed nested field correct keys -- includes in progress')
@@ -32,6 +32,7 @@ test('remove', function (t) {
     t.equal(stamp, vstamp.cnt, 'correct stamp')
   })
   obs.remove()
+  t.equal(deep, 2, 'fired deep twice')
   t.equal(top, 4, 'removed nested field fire for instances')
   t.equal(remove, 2, 'removed obs fire for instances')
 })
@@ -55,3 +56,59 @@ test('remove - fires data listeners when completed', function (t) {
   })
   obs.a.remove()
 })
+
+test('remove - context', function (t) {
+  const obs = new Observable({
+    child: {
+      define: {
+        extend: {
+          contextRemove (contextRemove, key, stamp) {
+            console.log('HELLO --->', key, stamp)
+            return contextRemove.call(this, key, stamp)
+          }
+        }
+      },
+      child: 'Constructor'
+    },
+    a: {},
+    b: { c: {} },
+    d: { e: {} }
+    // ofc this will nto work with child:'Constructor....' its endless repeat
+  })
+
+  const instance = new obs.Constructor()
+  instance.a.remove()
+  t.ok(instance.hasOwnProperty('_a'), 'instance has own property "_a"')
+
+  // this should also work for instance.b.c.remove()
+  // instance.b.remove() <-- no this does not fire
+  instance.set({
+    b: {
+      c: null
+    }
+  })
+  // make tests in base
+  // this has to do context remove as well...
+  instance.d.e.remove()
+  t.end()
+})
+
+test('remove - on other stamp', function (t) {
+  const obs = new Observable({
+    a: {
+      on: {
+        remove () {
+          t.ok(true, 'fires remove listener from inhertied stamp')
+          t.end()
+        }
+      }
+    }
+  })
+  const stamp = vstamp.create()
+  obs.a.remove(stamp)
+  vstamp.close(stamp)
+})
+
+//   remove.js         |    83.87 |       76 |      100 |    83.64 |... 56,76,77,78 |  -- finishe corvage
+//   instances.js
+// context!! emit (double context witht he seed needs to be fixed!!!)
