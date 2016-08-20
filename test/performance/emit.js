@@ -27,7 +27,7 @@ function emitObservable () {
 }
 
 // add base, add attach
-perf(emitObservable, emitObserv, 1.25)
+perf(emitObservable, emitObserv, 1)
 
 const attach = new Observable()
 const obsAttach = new Observable() //eslint-disable-line

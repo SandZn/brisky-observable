@@ -32,7 +32,7 @@ test('off - key', (t) => {
   })
   obs.off(false, 'val')
   t.same(obs.emitters.data.fn.keys(), [], 'removed emitters on data')
-  t.same(obs.emitters.special.fn.keys(), [], 'removed emitters on data')
+  t.same(obs.emitters.special.fn.keys(), [], 'removed emitters on special')
   t.end()
 })
 
