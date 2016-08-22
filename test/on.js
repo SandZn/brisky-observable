@@ -97,3 +97,28 @@ test('on - resolve context remove (set)', (t) => {
   t.ok(instance.a._emitters.hasOwnProperty('_data'), 'emitters own data property')
   t.end()
 })
+
+test('on - child', (t) => {
+  const obs = new Observable({
+    child: {
+      on: {
+        xxx: {
+          label () { console.log('yo') }
+        }
+      }
+    }
+  })
+  obs.set({
+    hello: {
+      on: {
+        xxx: {
+          gurk () {
+            console.log('gurk')
+          }
+        }
+      }
+    }
+  })
+  console.log(obs.hello.emitters.xxx.fn.keys())
+  t.end()
+})

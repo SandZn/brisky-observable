@@ -79,17 +79,21 @@ test('remove - context', function (t) {
   const instance = new obs.Constructor()
   instance.a.remove()
   t.ok(instance.hasOwnProperty('_a'), 'instance has own property "_a"')
-
   // this should also work for instance.b.c.remove()
   // instance.b.remove() <-- no this does not fire
   instance.set({
     b: {
       c: null
     }
-  })
+  }, false)
+  t.same(instance.b.c, null, 'removed instance b.c')
+  t.ok(obs.b.c !== null, 'did not remove obs b.c')
   // make tests in base
   // this has to do context remove as well...
+  // so this creates something and then removes it... not super efficient can jsut call contextRemove
   instance.d.e.remove()
+  t.same(instance.d.e, null, 'removed instance d.e')
+  t.ok(obs.d.e !== null, 'did not remove obs d.e')
   t.end()
 })
 
