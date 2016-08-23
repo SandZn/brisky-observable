@@ -123,8 +123,7 @@ test('on - child', (t) => {
 })
 
 test('on - child - inject', (t) => {
-  const cnt = 0
-
+  var cnt = 0
   const injectable = {
      field: {
        child: {
@@ -136,23 +135,41 @@ test('on - child - inject', (t) => {
       }
     }
   }
-
+  // all this stuff just work its just the set override
   const obs = new Observable({
-    inject: {
-      field: {
-        hello: {
-          on: {
-            xxx: {
-              gurk () {
-                cnt++
-              }
+    inject: injectable,
+    field: {
+      child: {
+        on: {
+          xxx: {
+            x() { cnt++ }
+          }
+        }
+      },
+      hello: {
+        on: {
+          xxx: {
+            gurk () {
+              cnt++
             }
           }
         }
       }
     }
   })
+  t.same(obs.field.hello.emitters.xxx.fn.keys(), [ 'x', 'label', 'gurk' ], 'correct resolvement of context')
+  const a = new obs.Constructor({
+    field: {
+      x: {
+        on: {
+          xxx: {
+            x: null
+          }
+        }
+      }
+    }
+  })
 
-  t.same(obs.field.hello.emitters.xxx.fn.keys(), [ 'label', 'gurk' ], 'correct resolvement of context')
+  t.same(a.field.x.emitters.xxx.fn.keys(), [ 'label' ], 'remove x on instance of obs')
   t.end()
 })
