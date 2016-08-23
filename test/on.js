@@ -99,11 +99,12 @@ test('on - resolve context remove (set)', (t) => {
 })
 
 test('on - child', (t) => {
+  const cnt = 0
   const obs = new Observable({
     child: {
       on: {
         xxx: {
-          label () { console.log('yo') }
+          label () { cnt++ }
         }
       }
     }
@@ -112,13 +113,46 @@ test('on - child', (t) => {
     hello: {
       on: {
         xxx: {
-          gurk () {
-            console.log('gurk')
+          gurk () { cnt++ }
+        }
+      }
+    }
+  })
+  t.same(obs.hello.emitters.xxx.fn.keys(), [ 'label', 'gurk' ], 'correct resolvement of context')
+  t.end()
+})
+
+test('on - child - inject', (t) => {
+  const cnt = 0
+
+  const injectable = {
+     field: {
+       child: {
+        on: {
+          xxx: {
+            label () { cnt++ }
+          }
+        }
+      }
+    }
+  }
+
+  const obs = new Observable({
+    inject: {
+      field: {
+        hello: {
+          on: {
+            xxx: {
+              gurk () {
+                cnt++
+              }
+            }
           }
         }
       }
     }
   })
-  console.log(obs.hello.emitters.xxx.fn.keys())
+
+  t.same(obs.field.hello.emitters.xxx.fn.keys(), [ 'label', 'gurk' ], 'correct resolvement of context')
   t.end()
 })
