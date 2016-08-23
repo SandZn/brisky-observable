@@ -63,7 +63,7 @@ test('remove - context', function (t) {
       define: {
         extend: {
           contextRemove (contextRemove, key, stamp) {
-            console.log('HELLO --->', key, stamp)
+            console.log('contextRemove:', key, stamp)
             return contextRemove.call(this, key, stamp)
           }
         }
