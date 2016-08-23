@@ -113,6 +113,19 @@ test('remove - on other stamp', function (t) {
   vstamp.close(stamp)
 })
 
-//   remove.js         |    83.87 |       76 |      100 |    83.64 |... 56,76,77,78 |  -- finishe corvage
-//   instances.js
-// context!! emit (double context witht he seed needs to be fixed!!!)
+test('remove - gaurd against removed items', function (t) {
+  const obs = new Observable({
+    a: {
+      on: {
+        remove () {
+          t.ok(true, 'fires remove listener from inhertied stamp')
+          t.end()
+        }
+      }
+    }
+  })
+  const stamp = vstamp.create()
+  const a = obs.a
+  obs.remove(stamp)
+  obs.remove()
+})
