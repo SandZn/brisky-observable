@@ -18,12 +18,9 @@ test('basic context case', function (t) {
   t.equal(callCount, 2, 'setting a nested field to true fires twice')
   callCount = 0
   a.set({ c: {} })
-  // ok so what going on here
+  // wtf is the difference???
   t.equal(callCount, 2, 'setting a nested field to an empty object fires twice')
-  // instance updates!
   callCount = 0
-  // a.set({ c: {} })
-  // t.equal(callCount, 0, 'setting an empty object should not fire')
   t.end()
 })
 
