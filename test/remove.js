@@ -21,7 +21,7 @@ test('remove', function (t) {
     }
   })
   const instance = new obs.Constructor({ key: 'instance' }, false) // eslint-disable-line
-  t.plan(8)
+  t.plan(10)
   obs.keys()
   obs.b.remove()
   t.same(keys, [ 'a', 'b' ], 'removed nested field correct keys -- includes in progress')
@@ -73,13 +73,12 @@ test('remove - context', function (t) {
     a: {},
     b: { c: {} },
     d: { e: {} }
-    // ofc this will nto work with child:'Constructor....' its endless repeat
   })
 
   const instance = new obs.Constructor()
   instance.a.remove()
   t.ok(instance.hasOwnProperty('_a'), 'instance has own property "_a"')
-  // this should also work for instance.b.c.remove()
+
   // instance.b.remove() <-- no this does not fire
   instance.set({
     b: {

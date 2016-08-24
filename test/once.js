@@ -12,6 +12,17 @@ test('once', (t) => {
   t.end()
 })
 
+test('once - instances', (t) => {
+  var callCount = 0
+  const obs = new Observable({ a: true })
+  const instance = new obs.Constructor() //eslint-disable-line
+  obs.a.once(() => { callCount += 1 })
+  obs.a.set({ val: false })
+  obs.a.set({ val: true })
+  t.equal(callCount, 2, 'fires for constructor and instance')
+  t.end()
+})
+
 test('once - attach', (t) => {
   var callCount = 0
   const obs = new Observable({ a: true })
