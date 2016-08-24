@@ -27,3 +27,5 @@ function createObservableWithListenerSetObj () {
 // add base, add attach
 perf(createObservableWithListener, createObservable, 1.25)
 perf(createObservableWithListenerSetObj, createObservableWithListener, 1.25)
+
+// add all those different types in here
