@@ -124,7 +124,6 @@ test('remove - gaurd against removed items', function (t) {
     }
   })
   const stamp = vstamp.create()
-  const a = obs.a
   obs.remove(stamp)
   obs.remove()
 })

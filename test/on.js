@@ -99,12 +99,12 @@ test('on - resolve context remove (set)', (t) => {
 })
 
 test('on - child', (t) => {
-  const cnt = 0
+  // var cnt = 0
   const obs = new Observable({
     child: {
       on: {
         xxx: {
-          label () { cnt++ }
+          label () {}
         }
       }
     }
@@ -113,7 +113,7 @@ test('on - child', (t) => {
     hello: {
       on: {
         xxx: {
-          gurk () { cnt++ }
+          gurk () {}
         }
       }
     }
@@ -123,13 +123,12 @@ test('on - child', (t) => {
 })
 
 test('on - child - inject', (t) => {
-  var cnt = 0
   const injectable = {
-     field: {
-       child: {
+    field: {
+      child: {
         on: {
           xxx: {
-            label () { cnt++ }
+            label () {}
           }
         }
       }
@@ -142,16 +141,14 @@ test('on - child - inject', (t) => {
       child: {
         on: {
           xxx: {
-            x() { cnt++ }
+            x () {}
           }
         }
       },
       hello: {
         on: {
           xxx: {
-            gurk () {
-              cnt++
-            }
+            gurk () {}
           }
         }
       }
