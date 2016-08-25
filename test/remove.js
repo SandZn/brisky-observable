@@ -21,13 +21,14 @@ test('remove', function (t) {
     }
   })
   const instance = new obs.Constructor({ key: 'instance' }, false) // eslint-disable-line
-  t.plan(8)
+  t.plan(9)
   obs.keys()
   obs.b.remove()
   t.same(keys, [ 'a', 'b' ], 'removed nested field correct keys -- includes in progress')
   t.same(obs.keys(), [ 'a' ], 'removed nested field correct keys -- after removal excludes in progress')
   t.equal(top, 2, 'removed nested field fire for instances')
   obs.once((val, stamp) => {
+    t.equal(obs.val, null, 'fires when obs is removed')
     t.equal(val, null, 'val equals null')
     t.equal(stamp, vstamp.cnt, 'correct stamp')
   })
