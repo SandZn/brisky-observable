@@ -21,7 +21,7 @@ test('remove', function (t) {
     }
   })
   const instance = new obs.Constructor({ key: 'instance' }, false) // eslint-disable-line
-  t.plan(10)
+  t.plan(8)
   obs.keys()
   obs.b.remove()
   t.same(keys, [ 'a', 'b' ], 'removed nested field correct keys -- includes in progress')

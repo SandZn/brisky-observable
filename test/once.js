@@ -19,7 +19,7 @@ test('once - instances', (t) => {
   obs.a.once(() => { callCount += 1 })
   obs.a.set({ val: false })
   obs.a.set({ val: true })
-  t.equal(callCount, 2, 'fires for constructor and instance')
+  t.equal(callCount, 1, 'fires for constructor and instance')
   t.end()
 })
 
