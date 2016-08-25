@@ -12,6 +12,16 @@ test('once', (t) => {
   t.end()
 })
 
+test('once - special emitter', (t) => {
+  var callCount = 0
+  const obs = new Observable({ a: true })
+  obs.a.once('special', () => { callCount += 1 })
+  obs.a.emit('special')
+  obs.a.emit('special')
+  t.equal(callCount, 1, 'fires once for function listener')
+  t.end()
+})
+
 test('once - instances', (t) => {
   var callCount = 0
   const obs = new Observable({ a: true })
