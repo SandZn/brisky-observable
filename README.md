@@ -46,7 +46,7 @@ fruits.on((data, stamp) => {
 })
 
 // this will fire the listener on fruits
-fruits.set({ banana: 1 kiwi: 1 })
+fruits.set({ banana: 1, kiwi: 1 })
 
 fruits.banana.once(() => {
   console.log('banana!')
