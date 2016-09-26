@@ -63,9 +63,9 @@ test('remove - context', function (t) {
     child: {
       define: {
         extend: {
-          contextRemove (contextRemove, key, stamp) {
+          contextRemove (method, key, stamp) {
             console.log('contextRemove:', key, stamp)
-            return contextRemove.call(this, key, stamp)
+            return method.call(this, key, stamp)
           }
         }
       },
