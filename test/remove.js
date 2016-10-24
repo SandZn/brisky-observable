@@ -128,3 +128,21 @@ test('remove - gaurd against removed items', function (t) {
   obs.remove(stamp)
   obs.remove()
 })
+
+test('remove - remove fires on nested observables', t => {
+  var fires = 0
+  const obs = new Observable({
+    blerk: {
+      sherk: {
+        on: {
+          remove () {
+            fires++
+          }
+        }
+      }
+    }
+  })
+  obs.remove()
+  t.equal(fires, 1, 'listener fired')
+  t.end()
+})
